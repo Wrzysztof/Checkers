@@ -14,7 +14,7 @@ public class ClientApplication extends Application {
         try {
 
             ClientPane root = new ClientPane();
-            Scene scene = new Scene(root, 832, 624);
+            Scene scene = new Scene(root);
 
             stage.setTitle("Warcaby");
             stage.setScene(scene);
