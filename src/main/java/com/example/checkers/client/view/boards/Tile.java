@@ -1,5 +1,6 @@
-package com.example.checkers.client.view;
+package com.example.checkers.client.view.boards;
 
+import com.example.checkers.client.view.boards.GameBoard;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
