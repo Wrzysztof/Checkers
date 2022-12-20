@@ -13,7 +13,7 @@ public class ClientApplication extends Application {
 
         try {
 
-            ClientPane root = new ClientPane();
+            ClientPane root = new ClientPane(stage);
             Scene scene = new Scene(root);
 
             stage.setTitle("Warcaby");
