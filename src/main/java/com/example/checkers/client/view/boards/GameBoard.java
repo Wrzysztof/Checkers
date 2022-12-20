@@ -1,6 +1,7 @@
 package com.example.checkers.client.view.boards;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -17,6 +18,7 @@ public class GameBoard extends GridPane {
 
         super();
         setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        setAlignment(Pos.CENTER);
         tiles = new ArrayList<>();
         pawns = new ArrayList<>();
 

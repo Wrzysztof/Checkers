@@ -4,8 +4,8 @@ module com.example.checkers {
 
     requires org.controlsfx.controls;
 
-    //opens com.example.checkers to javafx.fxml;
-    //exports com.example.checkers;
+    opens com.example.checkers.server to javafx.fxml;
+    exports com.example.checkers.server;
     exports com.example.checkers.client;
     opens com.example.checkers.client to javafx.fxml;
 }
