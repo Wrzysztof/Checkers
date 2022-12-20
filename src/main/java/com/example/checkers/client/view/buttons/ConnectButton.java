@@ -1,6 +1,6 @@
 package com.example.checkers.client.view.buttons;
 
-import com.example.checkers.client.controller.ConnectionToGame;
+import com.example.checkers.client.controller.buttons.ConnectionToGame;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;

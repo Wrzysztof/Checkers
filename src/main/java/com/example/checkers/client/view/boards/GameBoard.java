@@ -13,7 +13,7 @@ public class GameBoard extends GridPane {
 
     private final ArrayList<ArrayList<Tile>> tiles;
     private final ArrayList<ArrayList<Pawn>> pawns;
-    public GameBoard() {
+    public GameBoard(String gameName) {
 
         super();
         setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -45,8 +45,5 @@ public class GameBoard extends GridPane {
         }
     }
 
-    public void changePosition(int a, int b, int c, int d) {
 
-
-    }
 }

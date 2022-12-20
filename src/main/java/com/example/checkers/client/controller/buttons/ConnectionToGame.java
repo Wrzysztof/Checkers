@@ -1,4 +1,4 @@
-package com.example.checkers.client.controller;
+package com.example.checkers.client.controller.buttons;
 
 import com.example.checkers.client.view.boards.GameBoard;
 import com.example.checkers.client.view.buttons.ConnectButton;
