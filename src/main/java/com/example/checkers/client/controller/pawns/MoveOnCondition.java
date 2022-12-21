@@ -2,6 +2,7 @@ package com.example.checkers.client.controller.pawns;
 
 import com.example.checkers.client.view.boards.Pawn;
 import javafx.scene.Node;
+import javafx.scene.layout.GridPane;
 
 public final class MoveOnCondition {
 
@@ -28,12 +29,18 @@ public final class MoveOnCondition {
 
         pawn.setOnMouseReleased(e -> {
 
-            if (!pawn.isMoveLegal()) {
+            pawn.setTranslateX(defaultX - startX);
+            pawn.setTranslateY(defaultY - startY);
 
-                pawn.setTranslateX(defaultX - startX);
-                pawn.setTranslateY(defaultY - startY);
-                pawn.toFront();
+            if (!true) {
+
+                int x = 7 - (int)((560 - e.getSceneX()) / 70);
+                int y = 7 - (int)((560 - e.getSceneY()) / 70);
+                GridPane.setColumnIndex(pawn, GridPane.getColumnIndex(pawn.getBoard().getTile(x, y)));
+                GridPane.setRowIndex(pawn, GridPane.getRowIndex(pawn.getBoard().getTile(x, y)));
             }
+
+            pawn.toFront();
         });
     }
 }

@@ -12,4 +12,9 @@ public class Tile extends Rectangle {
         super(70, 70, color);
         this.board = board;
     }
+
+    public void setColorToGreen() {
+
+        setFill(Color.GREEN);
+    }
 }

@@ -1,6 +1,6 @@
 package com.example.checkers.client.view.boards;
 
-import com.example.checkers.client.controller.pawns.DraggableMaker;
+import com.example.checkers.client.controller.pawns.MoveOnCondition;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -13,11 +13,11 @@ public class Pawn extends Circle {
         super(30, color);
         this.board = board;
 
-        DraggableMaker.makeDraggable(this);
+        MoveOnCondition.makeMovable(this);
     }
 
-    public Boolean isMoveLegal() {
+    public GameBoard getBoard() {
 
-        return false;
+        return board;
     }
 }
