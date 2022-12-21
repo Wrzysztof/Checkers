@@ -1,5 +1,7 @@
 package com.example.checkers.client.view.boards;
 
+import com.example.checkers.client.view.boards.elements.Pawn;
+import com.example.checkers.client.view.boards.elements.Tile;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
@@ -11,23 +13,28 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class GameBoard extends GridPane {
+public abstract class GameBoard extends GridPane {
 
     private final ArrayList<ArrayList<Tile>> tiles;
     private final HashMap<Integer, Pawn> pawns;
     public GameBoard(String gameName) {
 
         super();
-        setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         tiles = new ArrayList<>();
         pawns = new HashMap<>();
+        drawBoard(setSize());
+    }
+
+    private void drawBoard(int size) {
+
         int pawnsCounter = 1;
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < size; i++) {
 
             ArrayList<Tile> column = new ArrayList<>();
 
-            for (int j = 0; j < 8; j++) {
+            for (int j = 0; j < size; j++) {
 
                 Color color = (j + i) % 2 == 0 ? Color.SANDYBROWN : Color.WHEAT;
                 Tile tile = new Tile(this, color);
@@ -37,9 +44,9 @@ public class GameBoard extends GridPane {
                 GridPane.setHalignment(tile, HPos.CENTER);
                 column.add(tile);
 
-                if(((i + j) % 2 == 0 && j < 3) || ((i + j) % 2 == 0 && j > 4)) {
+                if(((i + j) % 2 == 0 && j < (size / 2 - 1)) || ((i + j) % 2 == 0 && j > (size / 2))) {
 
-                    color = j > 3 ? Color.WHITE : Color.BLACK;
+                    color = j > (size / 2 - 1) ? Color.WHITE : Color.BLACK;
                     Pawn pawn = new Pawn(this, color);
                     add(pawn, i, j);
                     GridPane.setHalignment(pawn, HPos.CENTER);
@@ -51,6 +58,8 @@ public class GameBoard extends GridPane {
             tiles.add(column);
         }
     }
+
+    protected abstract int setSize();
 
     public Tile getTile(int x, int y) {
 

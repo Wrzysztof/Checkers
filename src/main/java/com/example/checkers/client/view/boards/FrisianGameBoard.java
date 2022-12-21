@@ -1,12 +1,12 @@
 package com.example.checkers.client.view.boards;
 
-public class EnglishGameBoard extends GameBoard {
-    public EnglishGameBoard(String gameName) {
+public class FrisianGameBoard extends GameBoard {
+    public FrisianGameBoard(String gameName) {
         super(gameName);
     }
 
     @Override
     protected int setSize() {
-        return 8;
+        return 10;
     }
 }

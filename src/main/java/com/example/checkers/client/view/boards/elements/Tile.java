@@ -1,4 +1,4 @@
-package com.example.checkers.client.view.boards;
+package com.example.checkers.client.view.boards.elements;
 
 import com.example.checkers.client.view.boards.GameBoard;
 import javafx.scene.paint.Color;

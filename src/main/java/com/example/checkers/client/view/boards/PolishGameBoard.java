@@ -4,4 +4,10 @@ public class PolishGameBoard extends GameBoard {
     public PolishGameBoard(String gameName) {
         super(gameName);
     }
+
+    @Override
+    protected int setSize() {
+
+        return 10;
+    }
 }

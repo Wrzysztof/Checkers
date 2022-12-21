@@ -1,6 +1,5 @@
 package com.example.checkers.client.view.buttons;
 
-import com.example.checkers.client.controller.buttons.ConnectionToGame;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -14,10 +13,11 @@ public abstract class ConnectButton extends Button {
         super();
         this.name = setName();
         setText(name);
-        ConnectionToGame.setConnectionOnClick(this, stage, textField);
+        connectToGame(stage, textField);
     }
 
     protected abstract String setName();
+    protected abstract void connectToGame(Stage stage, TextField textField);
 
     public String getName() {
 

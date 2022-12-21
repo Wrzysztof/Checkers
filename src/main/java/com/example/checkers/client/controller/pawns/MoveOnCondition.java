@@ -1,7 +1,6 @@
 package com.example.checkers.client.controller.pawns;
 
-import com.example.checkers.client.view.boards.Pawn;
-import javafx.scene.Node;
+import com.example.checkers.client.view.boards.elements.Pawn;
 import javafx.scene.layout.GridPane;
 
 public final class MoveOnCondition {
@@ -32,7 +31,7 @@ public final class MoveOnCondition {
             pawn.setTranslateX(defaultX - startX);
             pawn.setTranslateY(defaultY - startY);
 
-            if (!true) {
+            if (true) {
 
                 int x = 7 - (int)((560 - e.getSceneX()) / 70);
                 int y = 7 - (int)((560 - e.getSceneY()) / 70);
