@@ -17,13 +17,16 @@ public abstract class GameBoard extends GridPane {
 
     private final ArrayList<ArrayList<Tile>> tiles;
     private final HashMap<Integer, Pawn> pawns;
+    private final int size;
+
     public GameBoard(String gameName) {
 
         super();
         setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         tiles = new ArrayList<>();
         pawns = new HashMap<>();
-        drawBoard(setSize());
+        size = setSize();
+        drawBoard(size);
     }
 
     private void drawBoard(int size) {
@@ -60,6 +63,11 @@ public abstract class GameBoard extends GridPane {
     }
 
     protected abstract int setSize();
+
+    public int getSize() {
+
+        return size;
+    }
 
     public Tile getTile(int x, int y) {
 

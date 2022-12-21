@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public final class ConnectionToFrisianGame {
+public final class ConnectionToFrisianGame  {
 
     public static void setConnectionOnClick(ConnectButton button, Stage previousStage, TextField textField) {
 

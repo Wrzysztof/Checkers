@@ -18,6 +18,7 @@ public final class MoveOnCondition {
             defaultY = e.getSceneY();
             startX = e.getSceneX() - pawn.getTranslateX();
             startY = e.getSceneY() - pawn.getTranslateY();
+            pawn.toFront();
         });
 
         pawn.setOnMouseDragged(e -> {
@@ -33,13 +34,12 @@ public final class MoveOnCondition {
 
             if (true) {
 
-                int x = 7 - (int)((560 - e.getSceneX()) / 70);
-                int y = 7 - (int)((560 - e.getSceneY()) / 70);
+                int size = pawn.getBoard().getSize();
+                int x = size - 1 - (int)(size - e.getSceneX() / 70);
+                int y = size - 1 - (int)(size - e.getSceneY() / 70);
                 GridPane.setColumnIndex(pawn, GridPane.getColumnIndex(pawn.getBoard().getTile(x, y)));
                 GridPane.setRowIndex(pawn, GridPane.getRowIndex(pawn.getBoard().getTile(x, y)));
             }
-
-            pawn.toFront();
         });
     }
 }

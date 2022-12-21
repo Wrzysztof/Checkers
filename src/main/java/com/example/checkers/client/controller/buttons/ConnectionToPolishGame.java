@@ -18,7 +18,7 @@ public final class ConnectionToPolishGame {
             Scene scene = new Scene(gameBoard);
 
             stage.setScene(scene);
-            stage. setTitle(textField.getText());
+            stage.setTitle(textField.getText());
 
             previousStage.close();
             stage.show();
