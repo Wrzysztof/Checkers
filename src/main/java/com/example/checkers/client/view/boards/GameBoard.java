@@ -19,17 +19,13 @@ public abstract class GameBoard extends GridPane {
     private final HashMap<Integer, Pawn> pawns;
     private final int size;
 
-    public GameBoard(String gameName) {
+    public GameBoard() {
 
         super();
-        setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+        setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, CornerRadii.EMPTY, Insets.EMPTY)));
         tiles = new ArrayList<>();
         pawns = new HashMap<>();
         size = setSize();
-        drawBoard(size);
-    }
-
-    private void drawBoard(int size) {
 
         int pawnsCounter = 1;
 

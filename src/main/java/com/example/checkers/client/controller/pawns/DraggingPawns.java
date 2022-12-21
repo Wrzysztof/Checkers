@@ -3,7 +3,7 @@ package com.example.checkers.client.controller.pawns;
 import com.example.checkers.client.view.boards.elements.Pawn;
 import javafx.scene.layout.GridPane;
 
-public final class MoveOnCondition {
+public final class DraggingPawns {
 
     private static double startX;
     private static double startY;
@@ -37,8 +37,7 @@ public final class MoveOnCondition {
                 int size = pawn.getBoard().getSize();
                 int x = size - 1 - (int)(size - e.getSceneX() / 70);
                 int y = size - 1 - (int)(size - e.getSceneY() / 70);
-                GridPane.setColumnIndex(pawn, GridPane.getColumnIndex(pawn.getBoard().getTile(x, y)));
-                GridPane.setRowIndex(pawn, GridPane.getRowIndex(pawn.getBoard().getTile(x, y)));
+                MovingPawns.doMove(pawn, x, y);
             }
         });
     }
