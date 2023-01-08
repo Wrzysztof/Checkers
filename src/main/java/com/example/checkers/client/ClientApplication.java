@@ -12,46 +12,53 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class ClientApplication extends Application {
+public class ClientApplication extends Application implements Runnable {
     @Override
     public void start(Stage stage) {
 
         try {
 
-            //ClientPane root = new ClientPane(stage);
-            //Scene scene = new Scene(root);
+            ClientPane root = new ClientPane(stage);
+            Scene scene = new Scene(root);
 
-            //stage.setTitle("Warcaby");
-            //stage.setScene(scene);
-            //stage.show();
+            stage.setTitle("Warcaby");
+            stage.setScene(scene);
+            stage.show();
 
-            try (Socket socket = new Socket("localhost", 1234)) {
-
-                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-                Scanner sc = new Scanner(System.in);
-                String line = null;
-
-                while(!"exit".equalsIgnoreCase(line)) {
-
-                    line = sc.nextLine();
-
-                    out.println(line);
-                    out.flush();
-
-                    //do game.something
-                }
-
-                sc.close();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Thread thread = new Thread(this);
+            thread.start();
 
         } catch(Exception e) {
 
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void run() {
+
+        try (Socket socket = new Socket("localhost", 1234)) {
+
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            Scanner sc = new Scanner(System.in);
+            String line = null;
+
+            while(!"exit".equalsIgnoreCase(line)) {
+
+                line = sc.nextLine();
+
+                out.println(line);
+                out.flush();
+
+                //do game.something
+            }
+
+            sc.close();
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

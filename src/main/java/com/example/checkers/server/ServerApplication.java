@@ -12,52 +12,56 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ServerApplication extends Application {
+public class ServerApplication extends Application implements Runnable {
     @Override
     public void start(Stage stage) {
 
         try {
 
-            ServerSocket server = null;
+            ServerPane root = new ServerPane(stage);
+            Scene scene = new Scene(root);
 
-            try {
-
-                server = new ServerSocket(1234);
-                server.setReuseAddress(true);
-
-                while(true) {
-
-                    Socket client = server.accept();
-
-                    System.out.println("new clinet" + client.getInetAddress().getHostAddress());
-
-                    ClientHandler clientSock = new ClientHandler(client);
-
-                    new Thread(clientSock).start();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (server != null) {
-                    try {
-                        server.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+            stage.setTitle("Warcaby - Server");
+            stage.setScene(scene);
+            stage.show();
 
         } catch(Exception e) {
 
             e.printStackTrace();
         }
+    }
 
-        ServerPane root = new ServerPane(stage);
-        Scene scene = new Scene(root);
+    @Override
+    public void run() {
 
-        stage.setTitle("Warcaby - Server");
-        stage.setScene(scene);
-        stage.show();
+        ServerSocket server = null;
+
+        try {
+
+            server = new ServerSocket(1234);
+            server.setReuseAddress(true);
+
+            while(true) {
+
+                Socket client = server.accept();
+
+                System.out.println("new clinet" + client.getInetAddress().getHostAddress());
+
+                ClientHandler clientSock = new ClientHandler(client);
+
+                new Thread(clientSock).start();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (server != null) {
+                try {
+                    server.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private static class ClientHandler implements Runnable {
@@ -86,6 +90,8 @@ public class ServerApplication extends Application {
 
                     System.out.printf("sent fdsf: %s\n", line);
                     out.println(line);
+
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();
