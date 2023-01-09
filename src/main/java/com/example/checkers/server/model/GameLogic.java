@@ -1,4 +1,4 @@
-package com.example.checkers.client.model;
+package com.example.checkers.server.model;
 
 import javafx.scene.paint.Color;
 
@@ -6,11 +6,13 @@ import java.util.HashMap;
 
 public abstract class GameLogic {
 
+    private final String name;
     private final int boardSize;
     private final HashMap<Integer, PawnData> pawns;
 
-    public GameLogic() {
+    public GameLogic(String name) {
 
+        this.name = name;
         boardSize = setBoardSize();
         pawns = new HashMap<>();
         int pawnsCounter = 1;
@@ -32,6 +34,11 @@ public abstract class GameLogic {
 
     protected abstract int setBoardSize();
 
+    public String getName() {
+
+        return name;
+    }
+
     public int getBoardSize() {
         return boardSize;
     }
@@ -39,4 +46,26 @@ public abstract class GameLogic {
     public PawnData getPawn(int key) {
         return pawns.get(key);
     }
+
+    public void doMove(String number, String newX, String newY) {
+
+        int key = 0;
+        int x = 0;
+        int y = 0;
+
+        try {
+
+            key = Integer.parseInt(number);
+            x = Integer.parseInt(newX);
+            y = Integer.parseInt(newY);
+
+        } catch (NumberFormatException e) {
+
+            e.printStackTrace();
+        }
+
+        pawns.get(key).setX(x);
+        pawns.get(key).setX(y);
+    }
 }
+

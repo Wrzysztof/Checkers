@@ -13,12 +13,17 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class ClientApplication extends Application implements Runnable {
+
+    //private Socket socket = null;
+    private BufferedReader inputBuffer = null;
+    private PrintWriter outputPrinter = null;
+
     @Override
     public void start(Stage stage) {
 
         try {
 
-            ClientPane root = new ClientPane(stage);
+            ClientPane root = new ClientPane(stage, inputBuffer, outputPrinter);
             Scene scene = new Scene(root);
 
             stage.setTitle("Warcaby");
@@ -39,9 +44,9 @@ public class ClientApplication extends Application implements Runnable {
 
         try (Socket socket = new Socket("localhost", 1234)) {
 
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            outputPrinter = new PrintWriter(socket.getOutputStream(), true);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            inputBuffer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             Scanner sc = new Scanner(System.in);
             String line = null;
@@ -50,8 +55,8 @@ public class ClientApplication extends Application implements Runnable {
 
                 line = sc.nextLine();
 
-                out.println(line);
-                out.flush();
+                //out.println(line);
+                //out.flush();
 
                 //do game.something
             }

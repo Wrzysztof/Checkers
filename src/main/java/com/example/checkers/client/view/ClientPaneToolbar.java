@@ -9,13 +9,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+
 public class ClientPaneToolbar extends HBox {
 
-    public ClientPaneToolbar(Stage stage, TextField textField) {
+    public ClientPaneToolbar(Stage stage, TextField textField, BufferedReader inputBuffer, PrintWriter outputPrinter) {
 
-        final ConnectButton polishConnectButton = new PolishConnectButton(stage, textField);
-        final ConnectButton englishConnectButton = new EnglishConnectButton(stage, textField);
-        final ConnectButton canadianConnectButton = new FrisianConnectButton(stage, textField);
+        final ConnectButton polishConnectButton = new PolishConnectButton(stage, textField, inputBuffer, outputPrinter);
+        final ConnectButton englishConnectButton = new EnglishConnectButton(stage, textField, inputBuffer, outputPrinter);
+        final ConnectButton canadianConnectButton = new FrisianConnectButton(stage, textField, inputBuffer, outputPrinter);
 
         setSpacing(40);
         setPadding(new Insets(10));

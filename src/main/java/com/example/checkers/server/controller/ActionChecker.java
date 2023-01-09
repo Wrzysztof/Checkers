@@ -1,6 +1,5 @@
 package com.example.checkers.server.controller;
 
-import com.example.checkers.server.model.Game;
 import com.example.checkers.server.model.ServerGames;
 
 public final class ActionChecker {
@@ -18,13 +17,13 @@ public final class ActionChecker {
 
             } else {
 
-                games.newGame(commands[0]);
+                games.newGame(commands[0], commands[3]);
             }
         }
 
         else if (commands[2].equals("2")) {
 
-            games.getGame(commands[0]).doMove(commands[3], commands[4], commands[5], commands[6]);
+            games.getGame(commands[0]).doMove(commands[3], commands[4], commands[5]);
         }
     }
 }

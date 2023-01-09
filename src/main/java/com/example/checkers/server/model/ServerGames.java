@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class ServerGames {
 
-    private static ArrayList<Game> games;
+    private static ArrayList<GameLogic> games;
 
     public ServerGames() {
 
@@ -15,7 +15,7 @@ public class ServerGames {
 
     public boolean ifGameExists(String name) {
 
-        for (Game game:games) {
+        for (GameLogic game:games) {
 
             if (game.getName().equals(name)) {
 
@@ -26,15 +26,29 @@ public class ServerGames {
         return false;
     }
 
-    public void newGame(String name) {
+    public void newGame(String name, String type) {
 
-        Game game = new Game();
+        GameLogic game = null;
+
+        if (type.equals("1")) {
+
+            game = new PolishGameLogic(name);
+        } else if (type.equals("2")) {
+
+            game = new PolishGameLogic(name);
+        } else {
+
+            game = new PolishGameLogic(name);
+        }
+
+
+
         games.add(game);
     }
 
-    public Game getGame(String name) {
+    public GameLogic getGame(String name) {
 
-        for (Game game : games) {
+        for (GameLogic game : games) {
 
             if (game.getName().equals(name)) {
 

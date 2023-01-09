@@ -1,4 +1,4 @@
-package com.example.checkers.client.model;
+package com.example.checkers.server.model;
 
 import javafx.scene.paint.Color;
 

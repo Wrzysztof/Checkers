@@ -4,11 +4,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+
 public abstract class ConnectButton extends Button {
 
     private final String name;
 
-    public ConnectButton(Stage stage, TextField textField) {
+    public ConnectButton(Stage stage, TextField textField, BufferedReader inputBuffer, PrintWriter outputPrinter) {
 
         super();
         this.name = setName();
