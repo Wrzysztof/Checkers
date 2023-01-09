@@ -8,6 +8,7 @@ public abstract class GameLogic {
 
     private final String name;
     private final int boardSize;
+    private boolean isStarted = false;
     private final HashMap<Integer, PawnData> pawns;
 
     public GameLogic(String name) {
@@ -47,7 +48,7 @@ public abstract class GameLogic {
         return pawns.get(key);
     }
 
-    public void doMove(String number, String newX, String newY) {
+    public void doMove(String player, String number, String newX, String newY) {
 
         int key = 0;
         int x = 0;
@@ -66,6 +67,17 @@ public abstract class GameLogic {
 
         pawns.get(key).setX(x);
         pawns.get(key).setX(y);
+    }
+
+    public void startGame() {
+
+        isStarted = true;
+
+    }
+
+    public boolean isStarted() {
+
+        return isStarted;
     }
 }
 

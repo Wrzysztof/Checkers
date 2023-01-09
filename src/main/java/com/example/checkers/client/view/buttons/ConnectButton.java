@@ -16,11 +16,11 @@ public abstract class ConnectButton extends Button {
         super();
         this.name = setName();
         setText(name);
-        connectToGame(stage, textField);
+        connectToGame(stage, textField, inputBuffer, outputPrinter);
     }
 
     protected abstract String setName();
-    protected abstract void connectToGame(Stage stage, TextField textField);
+    protected abstract void connectToGame(Stage stage, TextField textField, BufferedReader inputBuffer, PrintWriter outputPrinter);
 
     public String getName() {
 

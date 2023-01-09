@@ -26,6 +26,11 @@ public class ServerGames {
         return false;
     }
 
+    public boolean ifGameStarted(String name) {
+
+        return getGame(name).isStarted();
+    }
+
     public void newGame(String name, String type) {
 
         GameLogic game = null;

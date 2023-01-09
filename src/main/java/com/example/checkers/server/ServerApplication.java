@@ -1,5 +1,6 @@
 package com.example.checkers.server;
 
+import com.example.checkers.server.controller.ActionChecker;
 import com.example.checkers.server.view.ServerPane;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -24,6 +25,9 @@ public class ServerApplication extends Application implements Runnable {
             stage.setTitle("Warcaby - Server");
             stage.setScene(scene);
             stage.show();
+
+            Thread thread = new Thread(this);
+            thread.start();
 
         } catch(Exception e) {
 
@@ -88,9 +92,9 @@ public class ServerApplication extends Application implements Runnable {
 
                 while ((line = in.readLine()) != null) {
 
-                    System.out.printf("sent fdsf: %s\n", line);
-                    out.println(line);
-
+                    //System.out.printf("sent fdsf: %s\n", line);
+                    //out.println(line);
+                    ActionChecker.check(line, out);
 
                 }
             } catch (IOException e) {

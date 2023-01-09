@@ -20,8 +20,8 @@ public class FrisianConnectButton extends ConnectButton {
     }
 
     @Override
-    protected void connectToGame(Stage stage, TextField textField) {
+    protected void connectToGame(Stage stage, TextField textField, BufferedReader inputBuffer, PrintWriter outputPrinter) {
 
-        ConnectionToFrisianGame.setConnectionOnClick(this, stage, textField);
+        ConnectionToFrisianGame.setConnectionOnClick(this, stage, textField, inputBuffer, outputPrinter);
     }
 }

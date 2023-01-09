@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class ClientApplication extends Application implements Runnable {
 
-    //private Socket socket = null;
+    private Socket socket = null;
     private BufferedReader inputBuffer = null;
     private PrintWriter outputPrinter = null;
 
@@ -23,6 +23,9 @@ public class ClientApplication extends Application implements Runnable {
 
         try {
 
+            Thread thread = new Thread(this);
+            thread.start();
+
             ClientPane root = new ClientPane(stage, inputBuffer, outputPrinter);
             Scene scene = new Scene(root);
 
@@ -30,8 +33,7 @@ public class ClientApplication extends Application implements Runnable {
             stage.setScene(scene);
             stage.show();
 
-            Thread thread = new Thread(this);
-            thread.start();
+
 
         } catch(Exception e) {
 
@@ -42,10 +44,10 @@ public class ClientApplication extends Application implements Runnable {
     @Override
     public void run() {
 
-        try (Socket socket = new Socket("localhost", 1234)) {
+        try {
 
+            socket = new Socket("127.0.0.1", 1234);
             outputPrinter = new PrintWriter(socket.getOutputStream(), true);
-
             inputBuffer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             Scanner sc = new Scanner(System.in);
@@ -55,8 +57,8 @@ public class ClientApplication extends Application implements Runnable {
 
                 line = sc.nextLine();
 
-                //out.println(line);
-                //out.flush();
+                outputPrinter.println(line);
+                outputPrinter.flush();
 
                 //do game.something
             }

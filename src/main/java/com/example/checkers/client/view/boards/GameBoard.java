@@ -10,6 +10,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,14 +20,22 @@ public abstract class GameBoard extends GridPane {
     private final ArrayList<ArrayList<Tile>> tiles;
     private final HashMap<Integer, Pawn> pawns;
     private final int size;
+    private final String player;
+    private final String name;
+    private final BufferedReader inputBuffer;
+    private final PrintWriter outputPrinter;
 
-    public GameBoard() {
+    public GameBoard(String name, String player, BufferedReader inputBuffer, PrintWriter outputPrinter) {
 
         super();
         setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, CornerRadii.EMPTY, Insets.EMPTY)));
         tiles = new ArrayList<>();
         pawns = new HashMap<>();
         size = setSize();
+        this.player = player;
+        this.name = name;
+        this.inputBuffer = inputBuffer;
+        this.outputPrinter = outputPrinter;
 
         int pawnsCounter = 1;
 
@@ -46,7 +56,7 @@ public abstract class GameBoard extends GridPane {
                 if(((i + j) % 2 == 0 && j < (size / 2 - 1)) || ((i + j) % 2 == 0 && j > (size / 2))) {
 
                     color = j > (size / 2 - 1) ? Color.WHITE : Color.BLACK;
-                    Pawn pawn = new Pawn(this, color);
+                    Pawn pawn = new Pawn(this, color, pawnsCounter, inputBuffer, outputPrinter);
                     add(pawn, i, j);
                     GridPane.setHalignment(pawn, HPos.CENTER);
                     pawns.put(pawnsCounter, pawn);
@@ -73,5 +83,15 @@ public abstract class GameBoard extends GridPane {
     public Pawn getPawn(int key) {
 
         return pawns.get(key);
+    }
+
+    public String getName() {
+
+        return name;
+    }
+
+    public String getPlayer() {
+
+        return player;
     }
 }

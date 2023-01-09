@@ -7,21 +7,48 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 public final class ConnectionToEnglishGame {
 
-    public static void setConnectionOnClick(ConnectButton button, Stage previousStage, TextField textField) {
+    public static void setConnectionOnClick(ConnectButton button, Stage previousStage, TextField textField, BufferedReader inputBuffer, PrintWriter outputPrinter) {
 
         button.setOnAction(e -> {
 
-            Stage stage = new Stage();
-            GameBoard gameBoard = new EnglishGameBoard(button.getName());
-            Scene scene = new Scene(gameBoard);
+            ConnectionToGame.createGame(textField.getText(), button.getName(), inputBuffer, outputPrinter);
 
-            stage.setScene(scene);
-            stage.setTitle(textField.getText());
+            boolean stop = false;
 
-            previousStage.close();
-            stage.show();
+            while (!stop) {
+
+                try {
+
+                    String line = inputBuffer.readLine();
+
+                    if(line.equals("1") || line.equals("2")) {
+
+                        Stage stage = new Stage();
+                        GameBoard gameBoard = new EnglishGameBoard(button.getName(), line, inputBuffer, outputPrinter);
+                        Scene scene = new Scene(gameBoard);
+
+                        stage.setScene(scene);
+                        stage.setTitle(textField.getText());
+
+                        previousStage.close();
+                        stage.show();
+
+                        stop = true;
+                    } else if (line.equals("no")) {
+
+                        stop = true;
+                    }
+
+                } catch (IOException ex) {
+
+                }
+            }
         });
     }
 }

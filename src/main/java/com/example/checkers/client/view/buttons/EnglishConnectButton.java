@@ -20,8 +20,8 @@ public class EnglishConnectButton extends ConnectButton {
     }
 
     @Override
-    protected void connectToGame(Stage stage, TextField textField) {
+    protected void connectToGame(Stage stage, TextField textField, BufferedReader inputBuffer, PrintWriter outputPrinter) {
 
-        ConnectionToEnglishGame.setConnectionOnClick(this, stage, textField);
+        ConnectionToEnglishGame.setConnectionOnClick(this, stage, textField, inputBuffer, outputPrinter);
     }
 }
