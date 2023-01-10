@@ -25,6 +25,8 @@ public abstract class GameBoard extends GridPane {
     private final BufferedReader inputBuffer;
     private final PrintWriter outputPrinter;
 
+    private boolean yourTurn = false;
+
     public GameBoard(String name, String player, BufferedReader inputBuffer, PrintWriter outputPrinter) {
 
         super();
@@ -69,6 +71,11 @@ public abstract class GameBoard extends GridPane {
     }
 
     protected abstract int setSize();
+
+    public void changePlayer() {
+
+        yourTurn = !yourTurn;
+    }
 
     public int getSize() {
 

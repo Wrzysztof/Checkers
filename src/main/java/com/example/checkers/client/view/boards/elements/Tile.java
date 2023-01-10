@@ -7,14 +7,15 @@ import javafx.scene.shape.Rectangle;
 public class Tile extends Rectangle {
 
     private final GameBoard board;
+    private final static int SIZE = 70;
 
     public Tile(GameBoard board, Color color) {
-        super(70, 70, color);
+        super(SIZE, SIZE, color);
         this.board = board;
     }
 
-    public void setColorToGreen() {
+    public int getSize() {
 
-        setFill(Color.GREEN);
+        return SIZE;
     }
 }
