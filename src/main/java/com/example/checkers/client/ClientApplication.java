@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class ClientApplication extends Application implements Runnable {
@@ -17,6 +18,7 @@ public class ClientApplication extends Application implements Runnable {
     private Socket socket = null;
     private BufferedReader inputBuffer = null;
     private PrintWriter outputPrinter = null;
+    private ClientPane root = null;
 
     @Override
     public void start(Stage stage) {
@@ -26,7 +28,7 @@ public class ClientApplication extends Application implements Runnable {
             Thread thread = new Thread(this);
             thread.start();
 
-            ClientPane root = new ClientPane(stage, inputBuffer, outputPrinter);
+            root = new ClientPane(stage, inputBuffer, outputPrinter);
             Scene scene = new Scene(root);
 
             stage.setTitle("Warcaby");
@@ -55,12 +57,12 @@ public class ClientApplication extends Application implements Runnable {
 
             while(!"exit".equalsIgnoreCase(line)) {
 
-                line = sc.nextLine();
+                line = inputBuffer.readLine();
 
-                outputPrinter.println(line);
-                outputPrinter.flush();
+                if (Objects.equals(line.charAt(0), 'r')) {
 
-                //do game.something
+                    ActionPerformer.check(line);
+                }
             }
 
             sc.close();

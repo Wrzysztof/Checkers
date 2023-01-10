@@ -1,8 +1,10 @@
 package com.example.checkers.client.controller.buttons;
 
+import com.example.checkers.client.ActionPerformer;
 import com.example.checkers.client.view.boards.GameBoard;
 import com.example.checkers.client.view.boards.PolishGameBoard;
 import com.example.checkers.client.view.buttons.ConnectButton;
+import com.example.checkers.server.controller.ActionChecker;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -31,6 +33,7 @@ public final class ConnectionToPolishGame {
 
                         Stage stage = new Stage();
                         GameBoard gameBoard = new PolishGameBoard(button.getName(), line, inputBuffer, outputPrinter);
+                        ActionPerformer.setGameBoard(gameBoard);
                         Scene scene = new Scene(gameBoard);
 
                         stage.setScene(scene);

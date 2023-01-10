@@ -1,5 +1,6 @@
 package com.example.checkers.client.view;
 
+import com.example.checkers.client.view.boards.GameBoard;
 import com.example.checkers.client.view.buttons.FrisianConnectButton;
 import com.example.checkers.client.view.buttons.ConnectButton;
 import com.example.checkers.client.view.buttons.EnglishConnectButton;
