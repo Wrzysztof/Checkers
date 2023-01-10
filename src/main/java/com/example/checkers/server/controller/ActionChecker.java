@@ -50,8 +50,7 @@ public final class ActionChecker {
 
         } else if (commands[2].equals("move")) {
 
-            games.getGame(commands[0]).doMove(commands[1], commands[3], commands[4], commands[5]);
-            out.println("yes");
+            out.println(games.getGame(commands[0]).doMove(commands[1], commands[3], commands[4], commands[5]));
         }
     }
 }

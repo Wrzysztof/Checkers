@@ -35,15 +35,15 @@ public class ServerGames {
 
         GameLogic game = null;
 
-        if (type.equals("1")) {
+        if (type.equals("Polskie")) {
 
             game = new PolishGameLogic(name);
-        } else if (type.equals("2")) {
+        } else if (type.equals("Angielskie")) {
 
-            game = new PolishGameLogic(name);
+            game = new EnglishGameLogic(name);
         } else {
 
-            game = new PolishGameLogic(name);
+            game = new FrisianGameLogic(name);
         }
 
 
