@@ -89,6 +89,8 @@ public abstract class GameLogic {
 
         PawnData pawn = pawns.get(key);
 
+        toPrint += pawn.getX() + " " + pawn.getY() + " ";
+
         if (getPawn(x, y) != null) {
 
             toPrint += "no";
@@ -121,7 +123,7 @@ public abstract class GameLogic {
                                     pawn.setX(x);
                                     pawn.setY(y);
                                     pawnToKill.kill();
-                                    toPrint += "yes ";
+                                    toPrint += "yes yes ";
                                     toPrint += pawnToKill.getX();
                                     toPrint += " ";
                                     toPrint += pawnToKill.getY();
@@ -137,7 +139,7 @@ public abstract class GameLogic {
 
                         pawn.setX(x);
                         pawn.setY(y);
-                        toPrint += "yes ";
+                        toPrint += "yes no x x";
                     }
                 }
             }
@@ -183,13 +185,6 @@ public abstract class GameLogic {
             }
         }
 
-        if (playerChange) {
-
-            toPrint += " yes";
-        } else {
-            toPrint += " no";
-        }
-
         if(pawn.getColor().equals(Color.WHITE) && pawn.getY() == 0) {
 
             pawn.setKing();
@@ -217,6 +212,16 @@ public abstract class GameLogic {
         }
 
         if (win) {
+
+            playerChange = false;
+            toPrint += " yes";
+
+        } else {
+
+            toPrint += " no";
+        }
+
+        if (playerChange) {
 
             toPrint += " yes";
 
