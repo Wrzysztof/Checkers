@@ -1,5 +1,6 @@
 package com.example.checkers.server.model;
 
+import com.example.checkers.client.view.boards.elements.Pawn;
 import javafx.scene.paint.Color;
 
 import java.io.PrintWriter;
@@ -98,13 +99,15 @@ public abstract class GameLogic {
             return toPrint;
         }
 
-        if (pawn.getColor().equals(Color.WHITE) && player.equals("1") && playerWhite) {
+        if ((pawn.getColor().equals(Color.WHITE) && player.equals("1")) && playerWhite) {
 
-            toPrint += moveWhite(pawn, x, y);
+            String string = moveWhite(pawn, x, y);
+            toPrint += string;
 
-        } else if (pawn.getColor().equals(Color.BLACK) && player.equals("2") && !playerWhite) {
+        } else if ((pawn.getColor().equals(Color.BLACK) && player.equals("2")) && !playerWhite) {
 
-            toPrint += moveBlack(pawn, x, y);
+            String string = moveBlack(pawn, x, y);
+            toPrint += string;
 
         } else {
 
@@ -114,18 +117,23 @@ public abstract class GameLogic {
 
         //additional check - if player change - if capture is possible
 
-        for (int m = -1; m <= 1; m += 2) {
+        if (toPrint.charAt(toPrint.length() - 1) != 'x') {
 
-            for (int n = -1; n <= 1; n += 2) {
+            for (int m = -1; m <= 1; m += 2) {
 
-                if (getPawn(pawn.getX() + m, pawn.getY() + n) != null) {
+                for (int n = -1; n <= 1; n += 2) {
 
-                    m = m < 0 ? m - 1 : m + 1;
-                    n = n < 0 ? n - 1 : n + 1;
+                    PawnData pawnToCheck = getPawn(pawn.getX() + m, pawn.getY() + n);;
 
-                    if (getPawn(pawn.getX() + m, pawn.getY() + n) == null) {
+                    if (pawnToCheck != null && !pawnToCheck.getColor().equals(pawn.getColor())) {
 
-                        playerChange = false;
+                        int mm = m < 0 ? m - 1 : m + 1;
+                        int nn = n < 0 ? n - 1 : n + 1;
+
+                        if (getPawn(pawn.getX() + mm, pawn.getY() + nn) == null) {
+
+                            playerChange = false;
+                        }
                     }
                 }
             }

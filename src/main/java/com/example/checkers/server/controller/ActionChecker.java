@@ -1,12 +1,38 @@
 package com.example.checkers.server.controller;
 
+import com.example.checkers.server.ServerApplication;
 import com.example.checkers.server.model.ServerGames;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class ActionChecker {
 
+    private static final Object lock = new Object();
     private static final ServerGames games = new ServerGames();
+    private static final List<ServerApplication.ClientHandler> clients = new ArrayList<>();
+
+    public static void addClient(ServerApplication.ClientHandler client) {
+
+        synchronized (lock) {
+
+            clients.add(client);
+        }
+    }
+
+    private static void distributeMessage(String message) {
+
+        System.out.println(message);
+
+        List<ServerApplication.ClientHandler> clientsCopy;
+        synchronized (lock) {
+            clientsCopy = new ArrayList<>(clients);
+        }
+        for (ServerApplication.ClientHandler client : clientsCopy) {
+            client.sendMessage(message);
+        }
+    }
 
     public static void check(String command, PrintWriter out) {
 
@@ -47,7 +73,8 @@ public final class ActionChecker {
 
         } else if (commands[2].equals("move")) {
 
-            out.println(games.getGame(commands[0]).doMove(commands[1], commands[3], commands[4], commands[5]));
+            System.out.println(command);
+            distributeMessage(games.getGame(commands[0]).doMove(commands[1], commands[3], commands[4], commands[5]));
         }
     }
 }

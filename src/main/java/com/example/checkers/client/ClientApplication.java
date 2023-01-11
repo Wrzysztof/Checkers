@@ -54,18 +54,16 @@ public class ClientApplication extends Application implements Runnable {
 
             ActionPerformer.setOut(outputPrinter);
 
-            Scanner sc = new Scanner(System.in);
             String line = null;
 
             while(!"exit".equalsIgnoreCase(line)) {
 
                 line = inputBuffer.readLine();
                 if (line != null) {
+                    System.out.println(line);
                     ActionPerformer.check(line);
                 }
             }
-
-            sc.close();
 
         } catch (IOException e) {
             e.printStackTrace();

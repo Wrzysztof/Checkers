@@ -6,6 +6,10 @@ import com.example.checkers.client.controller.buttons.ConnectionToGame;
 import com.example.checkers.client.controller.buttons.ConnectionToPolishGame;
 import com.example.checkers.client.controller.pawns.MovingPawns;
 import com.example.checkers.client.view.boards.GameBoard;
+import com.example.checkers.client.view.boards.PolishGameBoard;
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.io.PrintWriter;
 
@@ -64,7 +68,8 @@ public final class ActionPerformer {
 
                     //zbic pawna z com[7]
                     int keyKill = Integer.parseInt(commands[6]);
-                    game.getChildren().remove(game.getPawn(keyKill));
+
+                    Platform.runLater(() -> game.getChildren().remove(game.getPawn(keyKill)));
                 }
 
                 if (commands[9].equals("yes")) {

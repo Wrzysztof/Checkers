@@ -24,15 +24,18 @@ public class PolishGameLogic extends GameLogic {
 
         } else {
 
-            result += checkKills(pawn, x, y);
+            result = checkKills(pawn, x, y);
 
-            for(int i = -1; i <= 1; i++) {
+            if (result.length() < 3) {
 
-                if(pawn.getY() - 1 == y && pawn.getX() + i == x && getPawn(x, y) == null && !mustMove) {
+                for(int i = -1; i <= 1; i++) {
 
-                    pawn.setX(x);
-                    pawn.setY(y);
-                    result += "yes no x";
+                    if((pawn.getY() - 1 == y && pawn.getX() + i == x && getPawn(x, y) == null) && !mustMove) {
+
+                        pawn.setX(x);
+                        pawn.setY(y);
+                        result = "yes no x";
+                    }
                 }
             }
         }
@@ -51,15 +54,15 @@ public class PolishGameLogic extends GameLogic {
 
         } else {
 
-            result += checkKills(pawn, x, y);
+            result = checkKills(pawn, x, y);
 
             for(int i = -1; i <= 1; i++) {
 
-                if(pawn.getY() + 1 == y && pawn.getX() + i == x && getPawn(x, y) == null && !mustMove) {
+                if((pawn.getY() + 1 == y && pawn.getX() + i == x && getPawn(x, y) == null) && !mustMove) {
 
                     pawn.setX(x);
                     pawn.setY(y);
-                    result += "yes";
+                    result = "yes no x";
                 }
             }
         }
@@ -67,7 +70,7 @@ public class PolishGameLogic extends GameLogic {
         return result;
     }
 
-    public String checkKills(PawnData pawn, int x, int y) {
+    private String checkKills(PawnData pawn, int x, int y) {
 
         String result = "";
 
@@ -75,7 +78,9 @@ public class PolishGameLogic extends GameLogic {
 
             for (int n = -1; n <= 1; n += 2) {
 
-                if (getPawn(pawn.getX() + m, pawn.getY() + n) != null) {
+                PawnData pawnToCheck = getPawn(pawn.getX() + m, pawn.getY() + n);
+
+                if (pawnToCheck != null && !pawnToCheck.getColor().equals(pawn.getColor())) {
 
                     PawnData pawnToKill = getPawn(pawn.getX() + m, pawn.getY() + n);
                     m = m < 0 ? m - 1 : m + 1;
@@ -90,8 +95,7 @@ public class PolishGameLogic extends GameLogic {
                             pawn.setX(x);
                             pawn.setY(y);
                             pawnToKill.kill();
-                            result += "yes yes ";
-                            result += getPawn(pawnToKill.getX(), pawnToKill.getY()).getKey();
+                            result = "yes yes " + getPawn(pawnToKill.getX(), pawnToKill.getY()).getKey();
                         }
                     }
                 }

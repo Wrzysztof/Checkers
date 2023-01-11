@@ -48,12 +48,9 @@ public class ServerApplication extends Application implements Runnable {
             while(true) {
 
                 Socket client = server.accept();
-
-                System.out.println("new clinet" + client.getInetAddress().getHostAddress());
-
-                ClientHandler clientSock = new ClientHandler(client);
-
-                new Thread(clientSock).start();
+                ClientHandler clientSocket = new ClientHandler(client);
+                ActionChecker.addClient(clientSocket);
+                new Thread(clientSocket).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,9 +65,11 @@ public class ServerApplication extends Application implements Runnable {
         }
     }
 
-    private static class ClientHandler implements Runnable {
+    public static class ClientHandler implements Runnable {
 
         private final Socket clientSocket;
+        private PrintWriter out = null;
+        private BufferedReader in = null;
 
         public ClientHandler(Socket socket) {
 
@@ -79,23 +78,16 @@ public class ServerApplication extends Application implements Runnable {
 
         public void run() {
 
-            PrintWriter out = null;
-            BufferedReader in = null;
-
             try {
 
                 out = new PrintWriter(clientSocket.getOutputStream(), true);
-
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
                 String line;
 
                 while ((line = in.readLine()) != null) {
 
-                    //System.out.printf("sent fdsf: %s\n", line);
-                    //out.println(line);
                     ActionChecker.check(line, out);
-
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -112,6 +104,12 @@ public class ServerApplication extends Application implements Runnable {
                     e.printStackTrace();
                 }
             }
+        }
+
+        public void sendMessage(String message) {
+
+            out.println(message);
+            out.flush();
         }
     }
 
