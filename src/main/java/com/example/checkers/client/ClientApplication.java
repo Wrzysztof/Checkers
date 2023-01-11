@@ -1,5 +1,6 @@
 package com.example.checkers.client;
 
+import com.example.checkers.client.controller.ActionPerformer;
 import com.example.checkers.client.view.ClientPane;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -10,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class ClientApplication extends Application implements Runnable {
@@ -52,15 +52,15 @@ public class ClientApplication extends Application implements Runnable {
             outputPrinter = new PrintWriter(socket.getOutputStream(), true);
             inputBuffer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
+            ActionPerformer.setOut(outputPrinter);
+
             Scanner sc = new Scanner(System.in);
             String line = null;
 
             while(!"exit".equalsIgnoreCase(line)) {
 
                 line = inputBuffer.readLine();
-
-                if (Objects.equals(line.charAt(0), 'r')) {
-
+                if (line != null) {
                     ActionPerformer.check(line);
                 }
             }

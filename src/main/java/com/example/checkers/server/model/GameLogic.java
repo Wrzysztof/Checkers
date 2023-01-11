@@ -28,7 +28,7 @@ public abstract class GameLogic {
                 if(((i + j) % 2 == 0 && j < (boardSize / 2 - 1)) || ((i + j) % 2 == 0 && j > (boardSize / 2))) {
 
                     Color color = j > (boardSize / 2 - 1) ? Color.WHITE : Color.BLACK;
-                    PawnData pawn = new PawnData(i, j, color);
+                    PawnData pawn = new PawnData(i, j, pawnsCounter, color);
                     pawns.put(pawnsCounter, pawn);
                     pawnsCounter++;
                 }
@@ -37,6 +37,8 @@ public abstract class GameLogic {
     }
 
     protected abstract int setBoardSize();
+    protected abstract String moveWhite(PawnData pawn, int x, int y);
+    protected abstract String moveBlack(PawnData pawn, int x, int y);
 
     public String getName() {
 
@@ -67,12 +69,11 @@ public abstract class GameLogic {
 
     public String doMove(String player, String number, String newX, String newY) {
 
-        String toPrint = "r " + name + " ";
+        String toPrint = name + " ";
 
         int key = 0;
         int x = 0;
         int y = 0;
-        boolean mustMove = false;
         boolean playerChange = true;
         boolean win = true;
 
@@ -89,7 +90,7 @@ public abstract class GameLogic {
 
         PawnData pawn = pawns.get(key);
 
-        toPrint += pawn.getX() + " " + pawn.getY() + " ";
+        toPrint += pawn.getKey() + " " + x + " " + y + " ";
 
         if (getPawn(x, y) != null) {
 
@@ -99,74 +100,19 @@ public abstract class GameLogic {
 
         if (pawn.getColor().equals(Color.WHITE) && player.equals("1") && playerWhite) {
 
-            if (pawn.isKing()) {
-
-
-            } else {
-
-                for (int m = -1; m <= 1; m += 2) {
-
-                    for (int n = -1; n <= 1; n += 2) {
-
-                        if (getPawn(pawn.getX() + m, pawn.getY() + n) != null) {
-
-                            PawnData pawnToKill = getPawn(pawn.getX() + m, pawn.getY() + n);
-                            m = m < 0 ? m - 1 : m + 1;
-                            n = n < 0 ? n - 1 : n + 1;
-
-                            if (getPawn(pawn.getX() + m, pawn.getY() + n) == null) {
-
-                                mustMove = true;
-
-                                if (pawn.getX() + m == x && pawn.getY() + n == y) {
-
-                                    pawn.setX(x);
-                                    pawn.setY(y);
-                                    pawnToKill.kill();
-                                    toPrint += "yes yes ";
-                                    toPrint += pawnToKill.getX();
-                                    toPrint += " ";
-                                    toPrint += pawnToKill.getY();
-                                }
-                            }
-                        }
-                    }
-                }
-
-                for(int i = -1; i <= 1; i++) {
-
-                    if(pawn.getY() - 1 == y && pawn.getX() + i == x && getPawn(x, y) == null && !mustMove) {
-
-                        pawn.setX(x);
-                        pawn.setY(y);
-                        toPrint += "yes no x x";
-                    }
-                }
-            }
+            toPrint += moveWhite(pawn, x, y);
 
         } else if (pawn.getColor().equals(Color.BLACK) && player.equals("2") && !playerWhite) {
 
-            if (pawn.isKing()) {
-
-
-            } else {
-
-                for(int i = -1; i <= 1; i++) {
-
-                    if(pawn.getY() + 1 == y && pawn.getX() + i == x) {
-
-                        pawn.setX(x);
-                        pawn.setY(y);
-                        toPrint += "yes";
-                    }
-                }
-            }
+            toPrint += moveBlack(pawn, x, y);
 
         } else {
 
             toPrint += "no";
             return toPrint;
         }
+
+        //additional check - if player change - if capture is possible
 
         for (int m = -1; m <= 1; m += 2) {
 
@@ -224,6 +170,7 @@ public abstract class GameLogic {
         if (playerChange) {
 
             toPrint += " yes";
+            playerWhite = !playerWhite;
 
         } else {
 

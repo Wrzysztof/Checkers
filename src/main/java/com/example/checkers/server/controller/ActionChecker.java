@@ -19,16 +19,16 @@ public final class ActionChecker {
                 if(commands[1].equals("2")) {
 
                     games.getGame(commands[0]).startGame();
-                    out.println("2");
+                    out.println(commands[3] + " 2");
                 } else {
 
-                    out.println("no");
+                    out.println(commands[3] + " no");
                 }
 
             } else {
 
                 games.newGame(commands[0], commands[3]);
-                out.println("1");
+                out.println(commands[3] + " 1");
             }
 
         } else if (commands[2].equals("checkgame")) {
@@ -37,12 +37,12 @@ public final class ActionChecker {
 
                if(games.ifGameStarted(commands[0])) {
 
-                   out.println("3");
+                   out.println(commands[0] + " 3 " + commands[3]);
                } else {
-                   out.println("2");
+                   out.println(commands[0] + " 2 " + commands[3]);
                }
            } else {
-               out.println("1");
+               out.println(commands[0] + " 1 " + commands[3]);
            }
 
         } else if (commands[2].equals("move")) {

@@ -13,13 +13,13 @@ public class Pawn extends Circle {
     private final GameBoard board;
     private final int key;
 
-    public Pawn(GameBoard board, Color color, int key, BufferedReader inputBuffer, PrintWriter outputPrinter) {
+    public Pawn(GameBoard board, Color color, int key, PrintWriter outputPrinter) {
 
         super(30, color);
         this.board = board;
         this.key = key;
 
-        DraggingPawns.makeMovable(this, inputBuffer, outputPrinter);
+        DraggingPawns.makeMovable(this, outputPrinter);
     }
 
     public GameBoard getBoard() {

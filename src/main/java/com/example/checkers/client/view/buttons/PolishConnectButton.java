@@ -22,6 +22,6 @@ public class PolishConnectButton extends ConnectButton {
     @Override
     protected void connectToGame(Stage stage, TextField textField, BufferedReader inputBuffer, PrintWriter outputPrinter) {
 
-        ConnectionToPolishGame.setConnectionOnClick(this, stage, textField, inputBuffer, outputPrinter);
+        ConnectionToPolishGame.setConnectionOnClick(this, stage, textField, outputPrinter);
     }
 }

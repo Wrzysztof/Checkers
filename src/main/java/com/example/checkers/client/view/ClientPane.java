@@ -16,7 +16,7 @@ public class ClientPane extends BorderPane {
 
         final TextField textField = new TextField("Wpisz nazwę gry");
         final Label label = new Label("Wybierz wariant");
-        toolbar = new ClientPaneToolbar(stage, textField, inputBuffer, outputPrinter);
+        final ClientPaneToolbar toolbar = new ClientPaneToolbar(stage, textField, inputBuffer, outputPrinter);
         setTop(textField);
         setCenter(label);
         setBottom(toolbar);

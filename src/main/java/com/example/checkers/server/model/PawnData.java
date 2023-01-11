@@ -6,14 +6,16 @@ public class PawnData {
 
     private int x;
     private int y;
+    private int key;
     private boolean alive = true;
     private boolean king = false;
     private final Color color;
 
-    public PawnData(int x, int y, Color color) {
+    public PawnData(int x, int y, int key, Color color) {
 
         this.x = x;
         this.y = y;
+        this.key = key;
         this.color = color;
     }
 
@@ -32,6 +34,11 @@ public class PawnData {
     public void setKing() {
 
         king = true;
+    }
+
+    public int getKey() {
+
+        return key;
     }
 
     public int getX() {

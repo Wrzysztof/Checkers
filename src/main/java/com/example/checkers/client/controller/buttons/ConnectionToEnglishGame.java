@@ -13,42 +13,40 @@ import java.io.PrintWriter;
 
 public final class ConnectionToEnglishGame {
 
-    public static void setConnectionOnClick(ConnectButton button, Stage previousStage, TextField textField, BufferedReader inputBuffer, PrintWriter outputPrinter) {
+    public static void setConnectionOnClick(ConnectButton button, Stage previousStage, TextField textField, PrintWriter outputPrinter) {
 
         button.setOnAction(e -> {
 
-            ConnectionToGame.createGame(textField.getText(), button.getName(), inputBuffer, outputPrinter);
+            ConnectionToGame.createGame(textField.getText(), button.getName(), outputPrinter);
 
             boolean stop = false;
 
             while (!stop) {
 
-                try {
+                //String line = inputBuffer.readLine();
 
-                    String line = inputBuffer.readLine();
+                //if(line.equals("1") || line.equals("2")) {
 
-                    if(line.equals("1") || line.equals("2")) {
+                Stage stage = new Stage();
+                //GameBoard gameBoard = new EnglishGameBoard(button.getName(), line, outputPrinter);
+                //Scene scene = new Scene(gameBoard);
 
-                        Stage stage = new Stage();
-                        GameBoard gameBoard = new EnglishGameBoard(button.getName(), line, inputBuffer, outputPrinter);
-                        Scene scene = new Scene(gameBoard);
+                //stage.setScene(scene);
+                stage.setTitle(textField.getText());
 
-                        stage.setScene(scene);
-                        stage.setTitle(textField.getText());
+                previousStage.close();
+                stage.show();
 
-                        previousStage.close();
-                        stage.show();
+                stop = true;
+                //} else if (line.equals("no")) {
 
-                        stop = true;
-                    } else if (line.equals("no")) {
+                stop = true;
+                //}
 
-                        stop = true;
-                    }
-
-                } catch (IOException ex) {
-
-                }
             }
         });
+    }
+
+    public static void setGame(String answer) {
     }
 }

@@ -33,20 +33,18 @@ public class ServerGames {
 
     public void newGame(String name, String type) {
 
-        GameLogic game = null;
+        GameLogic game;
 
-        if (type.equals("Polskie")) {
+        if ("Polskie".equals(type)) {
 
             game = new PolishGameLogic(name);
-        } else if (type.equals("Angielskie")) {
+        } else if ("Angielskie".equals(type)) {
 
             game = new EnglishGameLogic(name);
         } else {
 
             game = new FrisianGameLogic(name);
         }
-
-
 
         games.add(game);
     }
@@ -55,7 +53,7 @@ public class ServerGames {
 
         for (GameLogic game : games) {
 
-            if (game.getName().equals(name)) {
+            if (name.equals(game.getName())) {
 
                 return game;
             }

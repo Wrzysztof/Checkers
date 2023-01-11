@@ -9,4 +9,14 @@ public class FrisianGameLogic extends GameLogic {
     protected int setBoardSize() {
         return 10;
     }
+
+    @Override
+    protected String moveWhite(PawnData pawn, int x, int y) {
+        return null;
+    }
+
+    @Override
+    protected String moveBlack(PawnData pawn, int x, int y) {
+        return null;
+    }
 }

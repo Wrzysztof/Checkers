@@ -14,7 +14,7 @@ public final class DraggingPawns {
     private static double defaultX;
     private static double defaultY;
 
-    public static void makeMovable(Pawn pawn, BufferedReader inputBuffer, PrintWriter outputPrinter) {
+    public static void makeMovable(Pawn pawn, PrintWriter outputPrinter) {
 
         pawn.setOnMousePressed(e -> {
 
@@ -40,33 +40,7 @@ public final class DraggingPawns {
             int x = size - 1 - (int)(size - e.getSceneX() / 70);
             int y = size - 1 - (int)(size - e.getSceneY() / 70);
 
-            MovingPawns.doMove(pawn, x, y);
-
             outputPrinter.println(pawn.getBoard().getName() + " " + pawn.getBoard().getPlayer() + " move " + pawn.getKey() + " " + x + " " + y);
-
-            boolean stop = false;
-            String answer = "dupa";
-
-            while(!stop) {
-
-                try {
-                    String line = inputBuffer.readLine();
-
-                    if (line.equals("yes") || line.equals("no")) {
-
-                        answer = line;
-                        stop = true;
-                    }
-
-                } catch (IOException ex) {
-
-                }
-            }
-
-            if (answer.equals("yes")) {
-
-                MovingPawns.doMove(pawn, x, y);
-            }
         });
     }
 }
