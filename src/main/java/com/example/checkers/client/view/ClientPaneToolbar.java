@@ -1,6 +1,5 @@
 package com.example.checkers.client.view;
 
-import com.example.checkers.client.view.boards.GameBoard;
 import com.example.checkers.client.view.buttons.FrisianConnectButton;
 import com.example.checkers.client.view.buttons.ConnectButton;
 import com.example.checkers.client.view.buttons.EnglishConnectButton;
@@ -12,6 +11,10 @@ import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
+
+/**
+ * Toolbar with buttons for connecting to game
+ */
 
 public class ClientPaneToolbar extends HBox {
 

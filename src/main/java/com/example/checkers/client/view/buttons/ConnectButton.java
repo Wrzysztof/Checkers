@@ -7,6 +7,10 @@ import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 
+/**
+ * Button to connect to game
+ */
+
 public abstract class ConnectButton extends Button {
 
     private final String name;

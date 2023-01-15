@@ -8,6 +8,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Pop up window with given text
+ */
+
 public final class GameWindow {
 
     public static void display(Label label, String title) {
