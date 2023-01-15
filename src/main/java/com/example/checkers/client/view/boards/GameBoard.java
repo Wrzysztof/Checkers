@@ -99,4 +99,13 @@ public abstract class GameBoard extends GridPane {
 
         return player;
     }
+
+    public String endMessage() {
+
+        if (yourTurn) {
+             return "Wygrana";
+        } else {
+            return "Przegrana";
+        }
+    }
 }

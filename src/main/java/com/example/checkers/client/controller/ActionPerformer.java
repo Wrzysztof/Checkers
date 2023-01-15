@@ -5,6 +5,7 @@ import com.example.checkers.client.controller.buttons.ConnectionToFrisianGame;
 import com.example.checkers.client.controller.buttons.ConnectingToGame;
 import com.example.checkers.client.controller.buttons.ConnectionToPolishGame;
 import com.example.checkers.client.controller.pawns.MovingPawns;
+import com.example.checkers.client.view.GameEndWindow;
 import com.example.checkers.client.view.boards.GameBoard;
 import javafx.application.Platform;
 
@@ -87,6 +88,7 @@ public final class ActionPerformer {
                 if (commands[8].equals("yes")) {
 
                     //koniec gry - wygrana gracza aktywnego
+                    GameEndWindow.display(game.endMessage());
                 }
             }
         }
