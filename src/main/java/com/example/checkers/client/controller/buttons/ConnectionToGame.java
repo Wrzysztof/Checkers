@@ -3,7 +3,6 @@ package com.example.checkers.client.controller.buttons;
 import com.example.checkers.client.controller.ActionPerformer;
 import com.example.checkers.client.view.GameExistsWindow;
 import com.example.checkers.client.view.boards.GameBoard;
-import com.example.checkers.client.view.boards.PolishGameBoard;
 import com.example.checkers.client.view.buttons.ConnectButton;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -11,6 +10,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.PrintWriter;
+
+/**
+ * Giving buttons function of connecting to game
+ */
 
 public abstract class ConnectionToGame {
 
@@ -34,6 +37,11 @@ public abstract class ConnectionToGame {
             ConnectingToGame.createGame(name, button.getName(), out);
         });
     }
+
+    /**
+     * Creating the game and closing start window
+     * @param answer Answer from the server about game data
+     */
 
     public void setGame(String answer) {
 

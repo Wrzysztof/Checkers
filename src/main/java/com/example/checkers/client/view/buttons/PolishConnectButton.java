@@ -7,6 +7,10 @@ import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 
+/**
+ * Button to connect to Polish game
+ */
+
 public class PolishConnectButton extends ConnectButton {
     public PolishConnectButton(Stage stage, TextField textField, BufferedReader inputBuffer, PrintWriter outputPrinter) {
 

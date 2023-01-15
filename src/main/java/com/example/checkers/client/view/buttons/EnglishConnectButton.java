@@ -7,6 +7,10 @@ import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 
+/**
+ * Button to connect to English game
+ */
+
 public class EnglishConnectButton extends ConnectButton {
     public EnglishConnectButton(Stage stage, TextField textField, BufferedReader inputBuffer, PrintWriter outputPrinter) {
 

@@ -5,6 +5,10 @@ import com.example.checkers.client.view.boards.GameBoard;
 
 import java.io.PrintWriter;
 
+/**
+ * Creating Frisian Game
+ */
+
 public final class ConnectionToFrisianGame extends ConnectionToGame {
 
     @Override

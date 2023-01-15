@@ -7,6 +7,10 @@ import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 
+/**
+ * Button to connect to Frisian game
+ */
+
 public class FrisianConnectButton extends ConnectButton {
     public FrisianConnectButton(Stage stage, TextField textField, BufferedReader inputBuffer, PrintWriter outputPrinter) {
 
