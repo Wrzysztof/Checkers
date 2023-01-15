@@ -2,14 +2,11 @@ package com.example.checkers.client.controller;
 
 import com.example.checkers.client.controller.buttons.ConnectionToEnglishGame;
 import com.example.checkers.client.controller.buttons.ConnectionToFrisianGame;
-import com.example.checkers.client.controller.buttons.ConnectionToGame;
+import com.example.checkers.client.controller.buttons.ConnectingToGame;
 import com.example.checkers.client.controller.buttons.ConnectionToPolishGame;
 import com.example.checkers.client.controller.pawns.MovingPawns;
 import com.example.checkers.client.view.boards.GameBoard;
-import com.example.checkers.client.view.boards.PolishGameBoard;
 import javafx.application.Platform;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 import java.io.PrintWriter;
 
@@ -33,21 +30,24 @@ public final class ActionPerformer {
 
         if (commands.length == 3) {
 
-            ConnectionToGame.createRealGame(commands[0], commands[2], commands[1], out);
+            ConnectingToGame.createRealGame(commands[0], commands[2], commands[1], out);
 
         } else if (commands.length == 2) {
 
             if (commands[0].equals("Polskie")) {
 
-                ConnectionToPolishGame.setGame(commands[1]);
+                ConnectionToPolishGame connect = new ConnectionToPolishGame();
+                connect.setGame(commands[1]);
 
             } else if (commands[0].equals("Angielskie")) {
 
-                ConnectionToEnglishGame.setGame(commands[1]);
+                ConnectionToEnglishGame connect = new ConnectionToEnglishGame();
+                connect.setGame(commands[1]);
 
             } else {
 
-                ConnectionToFrisianGame.setGame(commands[1]);
+                ConnectionToFrisianGame connect = new ConnectionToFrisianGame();
+                connect.setGame(commands[1]);
             }
         }
 

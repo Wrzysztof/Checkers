@@ -1,16 +1,61 @@
 package com.example.checkers.client.controller.buttons;
 
+import com.example.checkers.client.controller.ActionPerformer;
+import com.example.checkers.client.view.GameExistsWindow;
+import com.example.checkers.client.view.boards.GameBoard;
+import com.example.checkers.client.view.boards.PolishGameBoard;
+import com.example.checkers.client.view.buttons.ConnectButton;
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
 import java.io.PrintWriter;
 
-public final class ConnectionToGame {
+public abstract class ConnectionToGame {
 
-    public static void createGame(String gameName, String gameType, PrintWriter outputPrinter) {
+    private static String name;
+    private static Stage previousStage;
+    private static PrintWriter out;
 
-        outputPrinter.println(gameName + " " + "player" + " " + "checkgame" + " " + gameType);
+    protected ConnectionToGame() {
+
     }
 
-    public static void createRealGame(String gameName, String gameType, String player, PrintWriter outputPrinter) {
+    protected abstract GameBoard chooseGameBoard(String name, String answer, PrintWriter out);
 
-        outputPrinter.println(gameName + " " + player + " " + "newgame" + " " + gameType);
+    public static void setConnectionOnClick(ConnectButton button, Stage stage, TextField textField, PrintWriter outputPrinter) {
+
+        button.setOnAction(e -> {
+
+            name = textField.getText();
+            previousStage = stage;
+            out = outputPrinter;
+            ConnectingToGame.createGame(name, button.getName(), out);
+        });
+    }
+
+    public void setGame(String answer) {
+
+        Platform.runLater(() -> {
+
+            if (answer.equals("1") || answer.equals("2")) {
+
+                Stage stage = new Stage();
+                GameBoard gameBoard = chooseGameBoard(name, answer, out);
+                ActionPerformer.setGameBoard(gameBoard);
+                Scene scene = new Scene(gameBoard);
+
+                stage.setScene(scene);
+                stage.setTitle(name);
+
+                previousStage.close();
+                stage.show();
+
+            } else if (answer.equals("no")) {
+
+                GameExistsWindow.display();
+            }
+        });
     }
 }
