@@ -11,6 +11,10 @@ import javafx.application.Platform;
 
 import java.io.PrintWriter;
 
+/**
+ * Receiving information about the game from the server and changing the boards
+ */
+
 public final class ActionPerformer {
 
     private static PrintWriter out;
@@ -25,6 +29,12 @@ public final class ActionPerformer {
 
         game = gameBoard;
     }
+
+    /**
+     * Performing action depending on the message read
+     * @param command Message from the server
+     */
+
     public static void check(String command) {
 
         String[] commands = command.split(" ");
@@ -52,14 +62,14 @@ public final class ActionPerformer {
             }
         }
 
-        //tak wyglada komenda
+        //commmand
         //name movekey movex movey ifmove ifkill killkey playerchange ifking ifwin
 
         else if (commands[0].equals(game.getName())) {
 
             if (commands[4].equals("yes")) {
 
-                //wykonac ruch pawna z com[2] na com[3] com[4]
+                //move pawn com[1] to com[2] com[3]
                 int key = Integer.parseInt(commands[1]);
                 int x = Integer.parseInt(commands[2]);
                 int y = Integer.parseInt(commands[3]);
@@ -67,7 +77,7 @@ public final class ActionPerformer {
 
                 if (commands[5].equals("yes")) {
 
-                    //zbic pawna z com[7]
+                    //kill pawn com[6]
                     int keyKill = Integer.parseInt(commands[6]);
 
                     Platform.runLater(() -> game.getChildren().remove(game.getPawn(keyKill)));
@@ -75,19 +85,16 @@ public final class ActionPerformer {
 
                 if (commands[9].equals("yes")) {
 
-                    //zmienic gracza
                     game.changePlayer();
                 }
 
                 if (commands[7].equals("yes")) {
 
-                    //zamienic ruszanego pawna w krolowke
                     game.getPawn(key).setKing();
                 }
 
                 if (commands[8].equals("yes")) {
 
-                    //koniec gry - wygrana gracza aktywnego
                     GameEndWindow.display(game.endMessage());
                 }
             }

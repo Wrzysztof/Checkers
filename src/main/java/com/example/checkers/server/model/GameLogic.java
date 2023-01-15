@@ -1,11 +1,13 @@
 package com.example.checkers.server.model;
 
-import com.example.checkers.client.view.boards.elements.Pawn;
 import javafx.scene.paint.Color;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+
+/**
+ * The game rules
+ */
 
 public abstract class GameLogic {
 
@@ -40,6 +42,7 @@ public abstract class GameLogic {
     protected abstract int setBoardSize();
     protected abstract String moveWhite(PawnData pawn, int x, int y);
     protected abstract String moveBlack(PawnData pawn, int x, int y);
+    protected abstract boolean ifPlayerChange(PawnData pawn);
 
     public String getName() {
 
@@ -67,6 +70,15 @@ public abstract class GameLogic {
         }
         return pawn;
     }
+
+    /**
+     * Checking if move can be done and what would happen after
+     * @param player Player performing move
+     * @param number Key of the pawn moved
+     * @param newX Position x on which pawn is moved
+     * @param newY Position y on which pawn is moved
+     * @return Message what to do to send to the players
+     */
 
     public String doMove(String player, String number, String newX, String newY) {
 
@@ -115,28 +127,9 @@ public abstract class GameLogic {
             return toPrint;
         }
 
-        //additional check - if player change - if capture is possible
-
         if (toPrint.charAt(toPrint.length() - 1) != 'x') {
 
-            for (int m = -1; m <= 1; m += 2) {
-
-                for (int n = -1; n <= 1; n += 2) {
-
-                    PawnData pawnToCheck = getPawn(pawn.getX() + m, pawn.getY() + n);;
-
-                    if (pawnToCheck != null && !pawnToCheck.getColor().equals(pawn.getColor())) {
-
-                        int mm = m < 0 ? m - 1 : m + 1;
-                        int nn = n < 0 ? n - 1 : n + 1;
-
-                        if (getPawn(pawn.getX() + mm, pawn.getY() + nn) == null) {
-
-                            playerChange = false;
-                        }
-                    }
-                }
-            }
+            playerChange = ifPlayerChange(pawn);
         }
 
         if(pawn.getColor().equals(Color.WHITE) && pawn.getY() == 0) {

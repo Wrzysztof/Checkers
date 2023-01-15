@@ -1,8 +1,10 @@
 package com.example.checkers.server.model;
 
-import com.example.checkers.client.controller.pawns.MovingPawns;
-
 import java.util.ArrayList;
+
+/**
+ * Holding data about games playing on the server
+ */
 
 public class ServerGames {
 

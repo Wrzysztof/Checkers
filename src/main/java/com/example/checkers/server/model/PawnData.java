@@ -2,6 +2,10 @@ package com.example.checkers.server.model;
 
 import javafx.scene.paint.Color;
 
+/**
+ * Pawn from the game
+ */
+
 public class PawnData {
 
     private int x;

@@ -7,6 +7,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Receiving information from the clients and sending back messages what to do
+ */
+
 public final class ActionChecker {
 
     private static final Object lock = new Object();
@@ -33,6 +37,12 @@ public final class ActionChecker {
             client.sendMessage(message);
         }
     }
+
+    /**
+     * Reading messages from the client and checking what to do
+     * @param command The message from the client
+     * @param out PrintWriter to which messages are sent
+     */
 
     public static void check(String command, PrintWriter out) {
 
