@@ -2,7 +2,6 @@ package com.example.checkers.client.view.boards;
 
 import com.example.checkers.client.view.boards.elements.Pawn;
 import com.example.checkers.client.view.boards.elements.Tile;
-import com.example.checkers.server.model.PawnData;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
@@ -11,11 +10,13 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+
+/**
+ * Game board creation and setting its values depending on type
+ */
 
 public abstract class GameBoard extends GridPane {
 
@@ -24,7 +25,6 @@ public abstract class GameBoard extends GridPane {
     private final int size;
     private final String player;
     private final String name;
-    private final PrintWriter outputPrinter;
 
     private boolean yourTurn = false;
 
@@ -37,7 +37,6 @@ public abstract class GameBoard extends GridPane {
         size = setSize();
         this.player = player;
         this.name = name;
-        this.outputPrinter = outputPrinter;
 
         int pawnsCounter = 1;
 

@@ -4,6 +4,10 @@ import com.example.checkers.client.view.boards.GameBoard;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Tile of the game board
+ */
+
 public class Tile extends Rectangle {
 
     private final GameBoard board;

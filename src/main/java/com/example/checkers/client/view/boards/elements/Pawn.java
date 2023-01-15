@@ -5,8 +5,11 @@ import com.example.checkers.client.view.boards.GameBoard;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-import java.io.BufferedReader;
 import java.io.PrintWriter;
+
+/**
+ * Pawn displayed on board
+ */
 
 public class Pawn extends Circle {
 

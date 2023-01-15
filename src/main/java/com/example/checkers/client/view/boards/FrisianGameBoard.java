@@ -1,7 +1,10 @@
 package com.example.checkers.client.view.boards;
 
-import java.io.BufferedReader;
 import java.io.PrintWriter;
+
+/**
+ * Setting Frisian game board values
+ */
 
 public class FrisianGameBoard extends GameBoard {
     public FrisianGameBoard(String gameName, String player, PrintWriter outputPrinter) {

@@ -1,7 +1,10 @@
 package com.example.checkers.client.view.boards;
 
-import java.io.BufferedReader;
 import java.io.PrintWriter;
+
+/**
+ * Setting Polish game board values
+ */
 
 public class PolishGameBoard extends GameBoard {
     public PolishGameBoard(String gameName, String player, PrintWriter outputPrinter) {
