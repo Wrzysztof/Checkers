@@ -1,11 +1,12 @@
 package com.example.checkers.client.controller.pawns;
 
 import com.example.checkers.client.view.boards.elements.Pawn;
-import javafx.scene.layout.GridPane;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.PrintWriter;
+
+/**
+ * Making pawns able to be dragged and sending move coordinates
+ */
 
 public final class DraggingPawns {
 
@@ -37,8 +38,10 @@ public final class DraggingPawns {
             pawn.setTranslateY(defaultY - startY);
 
             int size = pawn.getBoard().getSize();
-            int x = size - 1 - (int)(size - e.getSceneX() / 70);
-            int y = size - 1 - (int)(size - e.getSceneY() / 70);
+            int tileSize = pawn.getBoard().getTile(1,1).getSize();
+
+            int x = size - 1 - (int)(size - e.getSceneX() / tileSize);
+            int y = size - 1 - (int)(size - e.getSceneY() / tileSize);
 
             outputPrinter.println(pawn.getBoard().getName() + " " + pawn.getBoard().getPlayer() + " move " + pawn.getKey() + " " + x + " " + y);
         });
