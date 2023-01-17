@@ -79,7 +79,6 @@ public final class ActionPerformer {
 
                     //kill pawn com[6]
                     int keyKill = Integer.parseInt(commands[6]);
-
                     Platform.runLater(() -> game.getChildren().remove(game.getPawn(keyKill)));
                 }
 

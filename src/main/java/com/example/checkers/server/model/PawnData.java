@@ -33,6 +33,8 @@ public class PawnData {
 
     public void kill() {
         alive = false;
+        setX(100);
+        setY(100);
     }
 
     public void setKing() {

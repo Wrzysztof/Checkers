@@ -15,7 +15,7 @@ public abstract class GameLogic {
     private final int boardSize;
     private boolean isStarted = false;
     private boolean playerWhite = false;
-    private final HashMap<Integer, PawnData> pawns;
+    protected HashMap<Integer, PawnData> pawns;
 
     public GameLogic(String name) {
 
@@ -63,7 +63,7 @@ public abstract class GameLogic {
 
         for (Map.Entry<Integer, PawnData> entry : pawns.entrySet())  {
 
-            if (entry.getValue().getX() == x && entry.getValue().getY() == y) {
+            if ((entry.getValue().getX() == x && entry.getValue().getY() == y) && entry.getValue().isAlive()) {
 
                 pawn = entry.getValue();
             }
@@ -103,9 +103,9 @@ public abstract class GameLogic {
 
         PawnData pawn = pawns.get(key);
 
-        toPrint += pawn.getKey() + " " + x + " " + y + " ";
+        toPrint += key + " " + x + " " + y + " ";
 
-        if (getPawn(x, y) != null) {
+        if (getPawn(x, y) != null && getPawn(x, y).isAlive()) {
 
             toPrint += "no";
             return toPrint;
@@ -127,20 +127,32 @@ public abstract class GameLogic {
             return toPrint;
         }
 
-        if (toPrint.charAt(toPrint.length() - 1) != 'x') {
+        if (toPrint.length() > 9 && toPrint.charAt(toPrint.length() - 1) != 'x') {
 
             playerChange = ifPlayerChange(pawn);
         }
 
-        if(pawn.getColor().equals(Color.WHITE) && pawn.getY() == 0) {
+        if (toPrint.charAt(toPrint.length() - 6) == 'o') {
 
-            pawn.setKing();
-            toPrint += " yes";
+            playerChange = false;
+        }
 
-        } else if (pawn.getColor().equals(Color.BLACK) && pawn.getY() == boardSize - 1) {
+        if (!pawn.isKing() && playerChange) {
 
-            pawn.setKing();
-            toPrint += " yes";
+            if (pawn.getColor().equals(Color.WHITE) && pawn.getY() == 0) {
+
+                pawn.setKing();
+                toPrint += " yes";
+
+            } else if (pawn.getColor().equals(Color.BLACK) && pawn.getY() == boardSize - 1) {
+
+                pawn.setKing();
+                toPrint += " yes";
+
+            } else {
+
+                toPrint += " no";
+            }
 
         } else {
 
@@ -151,7 +163,7 @@ public abstract class GameLogic {
 
         for (Map.Entry<Integer, PawnData> entry : pawns.entrySet())  {
 
-            if (entry.getValue().getColor().equals(opponentColor)) {
+            if (entry.getValue().getColor().equals(opponentColor) && entry.getValue().isAlive()) {
 
                 win = false;
                 break;
