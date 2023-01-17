@@ -172,8 +172,12 @@ public abstract class GameLogic {
 
         if (win) {
 
-            playerChange = false;
-            toPrint += " yes";
+            if (playerWhite) {
+
+                toPrint += " Biały";
+            } else {
+                toPrint += " Czarny";
+            }
 
         } else {
 

@@ -10,7 +10,7 @@ public final class GameEndWindow {
 
     public static void display(String result) {
 
-        Label label = new Label("Koniec gry - " + result);
+        Label label = new Label("Koniec gry - " + result + " wygrywa");
         GameWindow.display(label, "Koniec");
     }
 }

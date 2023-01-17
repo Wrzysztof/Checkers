@@ -92,9 +92,9 @@ public final class ActionPerformer {
                     game.getPawn(key).setKing();
                 }
 
-                if (commands[8].equals("yes")) {
+                if (!commands[8].equals("no")) {
 
-                    GameEndWindow.display(game.endMessage());
+                    Platform.runLater(() -> GameEndWindow.display(commands[8]));
                 }
             }
         }
