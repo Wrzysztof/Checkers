@@ -11,8 +11,8 @@ public class EnglishGameLogic extends GameLogic {
 
     private boolean mustMove = false;
 
-    public EnglishGameLogic(String name) {
-        super(name);
+    public EnglishGameLogic(String name, String type) {
+        super(name, type);
     }
 
     @Override
@@ -105,54 +105,49 @@ public class EnglishGameLogic extends GameLogic {
 
                 for (int j = -1; j <= 1; j++) {
 
-                    PawnData pawnToCheck = getPawn(pawn.getX() + i, pawn.getY() + j);
+                    if (i == 0 && j == 0) {
 
-                    if ((pawnToCheck != null && pawnToCheck.isAlive()) && !pawnToCheck.getColor().equals(pawn.getColor())) {
-
-                        int mm = i < 0 ? i - 1 : i + 1;
-                        int nn = j < 0 ? j - 1 : j + 1;
-
-                        int xToCheck = pawn.getX() + mm;
-                        int yToCheck = pawn.getY() + nn;
-
-                        pawnToCheck = getPawn(xToCheck, yToCheck);
-
-                        if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
-
-                            return false;
-                        }
+                        continue;
                     }
+
+                    if (ifKillIsPossible(pawn, i, j)) return false;
                 }
             }
 
         } else {
 
-            for (int m = -1; m <= 1; m += 2) {
+            for (int i = -1; i <= 1; i += 2) {
 
-                for (int n = -1; n <= 1; n += 2) {
+                for (int j = -1; j <= 1; j += 2) {
 
-                    PawnData pawnToCheck = getPawn(pawn.getX() + m, pawn.getY() + n);
-
-                    if ((pawnToCheck != null && pawnToCheck.isAlive()) && !pawnToCheck.getColor().equals(pawn.getColor())) {
-
-                        int mm = m < 0 ? m - 1 : m + 1;
-                        int nn = n < 0 ? n - 1 : n + 1;
-
-                        int xToCheck = pawn.getX() + mm;
-                        int yToCheck = pawn.getY() + nn;
-
-                        pawnToCheck = getPawn(xToCheck, yToCheck);
-
-                        if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
-
-                            return false;
-                        }
-                    }
+                    if (ifKillIsPossible(pawn, i, j)) return false;
                 }
             }
         }
 
         return true;
+    }
+
+    private boolean ifKillIsPossible(PawnData pawn, int i, int j) {
+
+        PawnData pawnToCheck = getPawn(pawn.getX() + i, pawn.getY() + j);
+
+        if ((pawnToCheck != null && pawnToCheck.isAlive()) && !pawnToCheck.getColor().equals(pawn.getColor())) {
+
+            int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+            int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
+            int xToCheck = pawn.getX() + mm;
+            int yToCheck = pawn.getY() + nn;
+
+            pawnToCheck = getPawn(xToCheck, yToCheck);
+
+            if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
+
+                return true;
+            }
+        }
+        return false;
     }
 
     private String checkKills(PawnData pawn, int x, int y) {
