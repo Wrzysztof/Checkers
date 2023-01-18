@@ -1,5 +1,8 @@
 package com.example.checkers.server.model;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 /**
  * The Polish game rules
  */
@@ -7,9 +10,14 @@ package com.example.checkers.server.model;
 public class PolishGameLogic extends GameLogic {
 
     private boolean mustMove = false;
+    private int bestKills = 0;
+    private int currentKills = 0;
+    private ArrayList<Integer> temporaryKilledPawns = new ArrayList<>();;
 
-    public PolishGameLogic(String name) {
-        super(name);
+
+
+    public PolishGameLogic(String name, String type) {
+        super(name, type);
     }
 
     @Override
@@ -20,8 +28,9 @@ public class PolishGameLogic extends GameLogic {
     @Override
     protected String moveWhite(PawnData pawn, int x, int y) {
 
-        String result = "";
+        String result;
         mustMove = false;
+        bestKills = 0;
 
         if (pawn.isKing()) {
 
@@ -29,7 +38,7 @@ public class PolishGameLogic extends GameLogic {
 
             if (result.length() < 3) {
 
-                result += kingMove(pawn, x, y);
+                result = kingMove(pawn, x, y);
             }
 
         } else {
@@ -38,9 +47,11 @@ public class PolishGameLogic extends GameLogic {
 
             if (result.length() < 3) {
 
-                for(int i = -1; i <= 1; i++) {
+                result = "no no x";
 
-                    if((pawn.getY() - 1 == y && pawn.getX() + i == x && getPawn(x, y) == null) && !mustMove) {
+                for (int i = -1; i <= 1; i++) {
+
+                    if((pawn.getY() - 1 == y && pawn.getX() + i == x && (getPawn(x, y) == null || getPawn(x, y).isAlive())) && !mustMove) {
 
                         pawn.setX(x);
                         pawn.setY(y);
@@ -56,8 +67,9 @@ public class PolishGameLogic extends GameLogic {
     @Override
     protected String moveBlack(PawnData pawn, int x, int y) {
 
-        String result = "";
+        String result;
         mustMove = false;
+        bestKills = 0;
 
         if (pawn.isKing()) {
 
@@ -65,20 +77,25 @@ public class PolishGameLogic extends GameLogic {
 
             if (result.length() < 3) {
 
-                result += kingMove(pawn, x, y);
+                result = kingMove(pawn, x, y);
             }
 
         } else {
 
             result = checkKills(pawn, x, y);
 
-            for(int i = -1; i <= 1; i++) {
+            if (result.length() < 3) {
 
-                if((pawn.getY() + 1 == y && pawn.getX() + i == x && getPawn(x, y) == null) && !mustMove) {
+                result = "no no x";
 
-                    pawn.setX(x);
-                    pawn.setY(y);
-                    result = "yes no x";
+                for (int i = -1; i <= 1; i++) {
+
+                    if ((pawn.getY() + 1 == y && pawn.getX() + i == x && (getPawn(x, y) == null || !getPawn(x, y).isAlive())) && !mustMove) {
+
+                        pawn.setX(x);
+                        pawn.setY(y);
+                        result = "yes no x";
+                    }
                 }
             }
         }
@@ -89,22 +106,207 @@ public class PolishGameLogic extends GameLogic {
     @Override
     protected boolean ifPlayerChange(PawnData pawn) {
 
-        for (int m = -1; m <= 1; m += 2) {
+        if (pawn.isKing()) {
 
-            for (int n = -1; n <= 1; n += 2) {
+            for (int i = -1; i <= 1; i += 2) {
 
-                PawnData pawnToCheck = getPawn(pawn.getX() + m, pawn.getY() + n);;
+                for (int j = -1; j <= 1; j += 2) {
 
-                if (pawnToCheck != null && !pawnToCheck.getColor().equals(pawn.getColor())) {
+                    if (ifKillIsPossibleForKing(pawn, i, j)) return false;
+                }
+            }
 
-                    int mm = m < 0 ? m - 1 : m + 1;
-                    int nn = n < 0 ? n - 1 : n + 1;
+        } else {
 
-                    if (getPawn(pawn.getX() + mm, pawn.getY() + nn) == null) {
+            for (int i = -1; i <= 1; i += 2) {
 
-                        return false;
+                for (int j = -1; j <= 1; j += 2) {
+
+                    if (ifKillIsPossible(pawn, i, j)) return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private boolean ifKillIsPossible(PawnData pawn, int i, int j) {
+
+        PawnData pawnToCheck = getPawn(pawn.getX() + i, pawn.getY() + j);
+
+        if ((pawnToCheck != null && pawnToCheck.isAlive()) && !pawnToCheck.getColor().equals(pawn.getColor())) {
+
+            int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+            int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
+            int xToCheck = pawn.getX() + mm;
+            int yToCheck = pawn.getY() + nn;
+
+            pawnToCheck = getPawn(xToCheck, yToCheck);
+
+            if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean ifKillIsPossibleForKing(PawnData pawn, int i, int j) {
+
+        int xToCheck = pawn.getX() + i;
+        int yToCheck = pawn.getY() + j;
+        PawnData pawnToCheck = getPawn(xToCheck, yToCheck);
+
+        while (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
+
+            int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+            int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
+            xToCheck = pawn.getX() + mm;
+            yToCheck = pawn.getY() + nn;
+
+            pawnToCheck = getPawn(xToCheck, yToCheck);
+        }
+
+        if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck != null && pawnToCheck.isAlive()) && !pawnToCheck.getColor().equals(pawn.getColor())) {
+
+            int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+            int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
+            xToCheck = pawn.getX() + mm;
+            yToCheck = pawn.getY() + nn;
+
+            pawnToCheck = getPawn(xToCheck, yToCheck);
+
+            if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void findBestMove(PawnData pawn) {
+
+        boolean first = true;
+        int currentCurrentKills = 0;
+        ArrayList<Integer> currentTemporaryKilledPawns = new ArrayList<>();
+
+        if (pawn.isKing()) {
+
+            for (int i = -1; i <= 1; i++) {
+
+                for (int j = -1; j <= 1; j++) {
+
+                    if (i == 0 && j == 0) {
+
+                        continue;
+                    }
+
+                    int xToCheck = pawn.getX() + i;
+                    int yToCheck = pawn.getY() + j;
+                    PawnData pawnToCheck = getPawn(xToCheck, yToCheck);
+
+                    while (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || (!pawnToCheck.isAlive() && !ifPawnIsNotTemporaryKilled(pawnToCheck.getKey())))) {
+
+                        int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+                        int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
+                        xToCheck = pawn.getX() + mm;
+                        yToCheck = pawn.getY() + nn;
+
+                        pawnToCheck = getPawn(xToCheck, yToCheck);
+                    }
+
+                    if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (((pawnToCheck != null && pawnToCheck.isAlive()) && ifPawnIsNotTemporaryKilled(pawnToCheck.getKey())) && !pawnToCheck.getColor().equals(pawn.getColor()))) {
+
+                        PawnData pawnToKill = pawnToCheck;
+
+                        int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+                        int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
+                        xToCheck = pawn.getX() + mm;
+                        yToCheck = pawn.getY() + nn;
+
+                        pawnToCheck = getPawn(xToCheck, yToCheck);
+
+                        if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || (!pawnToCheck.isAlive() && !ifPawnIsNotTemporaryKilled(pawnToCheck.getKey())))) {
+
+                            if (!first) {
+                                temporaryKilledPawns = currentTemporaryKilledPawns;
+                                currentKills = currentCurrentKills;
+                            }
+                            currentTemporaryKilledPawns = temporaryKilledPawns;
+                            currentCurrentKills = currentKills;
+                            first = false;
+                            temporaryKilledPawns.add(pawnToKill.getKey());
+                            currentKills++;
+                            findBestMove(new PawnData(xToCheck, yToCheck, 1000, pawn.getColor()));
+
+                            if (currentKills > bestKills) {
+
+                                bestKills = currentKills;
+                                System.out.println(pawn.getX() + " " + pawn.getY());
+                            }
+                        }
                     }
                 }
+            }
+
+        } else {
+
+            for (int i = -1; i <= 1; i += 2) {
+
+                for (int j = 1; j >= -1; j -= 2) {
+
+                    PawnData pawnToCheck = getPawn(pawn.getX() + i, pawn.getY() + j);
+
+                    if (((pawnToCheck != null && pawnToCheck.isAlive()) && ifPawnIsNotTemporaryKilled(pawnToCheck.getKey())) && !pawnToCheck.getColor().equals(pawn.getColor())) {
+
+                        PawnData pawnToKill = pawnToCheck;
+
+                        int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+                        int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
+                        int xToCheck = pawn.getX() + mm;
+                        int yToCheck = pawn.getY() + nn;
+
+                        pawnToCheck = getPawn(xToCheck, yToCheck);
+
+                        if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || (!pawnToCheck.isAlive() || !ifPawnIsNotTemporaryKilled(pawnToCheck.getKey())))) {
+
+                            if (!first) {
+                                temporaryKilledPawns = currentTemporaryKilledPawns;
+                                currentKills = currentCurrentKills;
+                            }
+                            currentCurrentKills = currentKills;
+                            currentTemporaryKilledPawns = temporaryKilledPawns;
+                            first = false;
+                            temporaryKilledPawns.add(pawnToKill.getKey());
+                            currentKills++;
+                            findBestMove(new PawnData(xToCheck, yToCheck, 1000, pawn.getColor()));
+
+                            if (currentKills > bestKills) {
+
+                                bestKills = currentKills;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean ifPawnIsNotTemporaryKilled(int key) {
+
+        for (int i : temporaryKilledPawns) {
+
+            if (i == key) {
+
+                return false;
             }
         }
 
@@ -113,7 +315,56 @@ public class PolishGameLogic extends GameLogic {
 
     private String checkKills(PawnData pawn, int x, int y) {
 
-        String result = "";
+        PawnData pawnCurrent;
+
+        for (Map.Entry<Integer, PawnData> entry : pawns.entrySet())  {
+
+            currentKills = 0;
+
+            if (entry.getValue().isAlive() && entry.getValue().getColor().equals(pawn.getColor())) {
+
+                pawnCurrent = entry.getValue();
+
+                for (int m = -1; m <= 1; m += 2) {
+
+                    for (int n = -1; n <= 1; n += 2) {
+
+                        PawnData pawnToCheck = getPawn(pawnCurrent.getX() + m, pawnCurrent.getY() + n);
+
+                        if ((pawnToCheck != null && pawnToCheck.isAlive()) && !pawnToCheck.getColor().equals(pawnCurrent.getColor())) {
+
+                            PawnData pawnToKill = pawnToCheck;
+
+                            int mm = m < 0 ? m - 1 : m + 1;
+                            int nn = n < 0 ? n - 1 : n + 1;
+
+                            int xToCheck = pawnCurrent.getX() + mm;
+                            int yToCheck = pawnCurrent.getY() + nn;
+
+                            pawnToCheck = getPawn(xToCheck, yToCheck);
+
+                            if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
+
+                                mustMove = true;
+                                currentKills++;
+                                temporaryKilledPawns.add(pawn.getKey());
+                                temporaryKilledPawns.add(pawnToKill.getKey());
+
+                                findBestMove(new PawnData(x, y, 1000, pawn.getColor()));
+
+                                if (currentKills > bestKills) {
+
+                                    bestKills = currentKills;
+                                }
+
+                                temporaryKilledPawns.clear();
+                                currentKills = 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         for (int m = -1; m <= 1; m += 2) {
 
@@ -121,56 +372,38 @@ public class PolishGameLogic extends GameLogic {
 
                 PawnData pawnToCheck = getPawn(pawn.getX() + m, pawn.getY() + n);
 
-                if (pawnToCheck != null && !pawnToCheck.getColor().equals(pawn.getColor())) {
+                if ((pawnToCheck != null && pawnToCheck.isAlive()) && !pawnToCheck.getColor().equals(pawn.getColor())) {
 
-                    PawnData pawnToKill = getPawn(pawn.getX() + m, pawn.getY() + n);
+                    PawnData pawnToKill = pawnToCheck;
+
                     int mm = m < 0 ? m - 1 : m + 1;
                     int nn = n < 0 ? n - 1 : n + 1;
 
-                    if (getPawn(pawn.getX() + mm, pawn.getY() + nn) == null) {
+                    int xToCheck = pawn.getX() + mm;
+                    int yToCheck = pawn.getY() + nn;
 
-                        mustMove = true;
+                    pawnToCheck = getPawn(xToCheck, yToCheck);
 
-                        if (pawn.getX() + mm == x && pawn.getY() + nn == y) {
+                    if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
+
+                        currentKills++;
+                        temporaryKilledPawns.add(pawn.getKey());
+                        temporaryKilledPawns.add(pawnToKill.getKey());
+
+                        findBestMove(new PawnData(x, y, 1000, pawn.getColor()));
+
+                        System.out.println("zrobione: " + currentKills + "/" + bestKills);
+                        if ((currentKills == bestKills) && (!pawn.isKing() && (xToCheck == x && yToCheck == y))) {
 
                             pawn.setX(x);
                             pawn.setY(y);
                             pawnToKill.kill();
-                            result = "yes yes " + getPawn(pawnToKill.getX(), pawnToKill.getY()).getKey();
+                            return "yes yes " + pawnToKill.getKey();
                         }
+
+                        currentKills = 0;
+                        temporaryKilledPawns.clear();
                     }
-                }
-            }
-        }
-
-        return result;
-    }
-
-    private String kingMove(PawnData pawn, int x, int y) {
-
-        for (int i = -1; i <= 1; i++) {
-
-            for (int j = -1; j <=1; j++) {
-
-                if (i == 0 && j == 0) {
-
-                    continue;
-                }
-
-                int ii = 0;
-                int jj = 0;
-
-                for (int k = 0; k < 8; k++) {
-
-                    if((pawn.getY() + i + ii == x && pawn.getX() + j + jj == y && getPawn(x, y) == null) && !mustMove) {
-
-                        pawn.setX(x);
-                        pawn.setY(y);
-                        return "yes no x";
-                    }
-
-                    ii += i;
-                    jj += j;
                 }
             }
         }
@@ -178,53 +411,158 @@ public class PolishGameLogic extends GameLogic {
         return "";
     }
 
-    private String checkKillsForKing(PawnData pawn, int x, int y) {
+    private String kingMove(PawnData pawn, int x, int y) {
 
-        String result = "";
+        for (int i = -1; i <= 1; i += 2) {
 
-        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j += 2) {
 
-            for (int j = -1; j <=1; j++) {
+                int xToCheck = pawn.getX() + i;
+                int yToCheck = pawn.getY() + j;
+                PawnData pawnToCheck = getPawn(xToCheck, yToCheck);
 
-                if (i == 0 && j == 0) {
+                while (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
 
-                    continue;
-                }
+                    if (((xToCheck == x && yToCheck == y) && (pawnToCheck == null || !pawnToCheck.isAlive())) && !mustMove) {
 
-                int ii = 0;
-                int jj = 0;
-
-                for (int k = 0; k < 8; k++) {
-
-                    PawnData pawnToCheck = getPawn(pawn.getX() + i + ii, pawn.getY() + j + jj);
-
-                    if (pawnToCheck != null && !pawnToCheck.getColor().equals(pawn.getColor())) {
-
-                        PawnData pawnToKill = getPawn(pawn.getX() + i + ii, pawn.getY() + j + jj);
-
-                        int mm = i + ii < 0 ? i + ii - 1 : i + ii + 1;
-                        int nn = j + jj < 0 ? j + jj - 1 : j + jj + 1;
-
-                        if (getPawn(pawn.getX() + mm, pawn.getY() + nn) == null) {
-
-                            mustMove = true;
-
-                            if (pawn.getX() + mm == x && pawn.getY() + nn == y) {
-
-                                pawn.setX(x);
-                                pawn.setY(y);
-                                pawnToKill.kill();
-                                result = "yes yes " + getPawn(pawnToKill.getX(), pawnToKill.getY()).getKey();
-                            }
-                        }
+                        pawn.setX(x);
+                        pawn.setY(y);
+                        return "yes no x";
                     }
 
-                    ii += i;
-                    jj += j;
+                    int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+                    int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
+                    xToCheck = pawn.getX() + mm;
+                    yToCheck = pawn.getY() + nn;
+
+                    pawnToCheck = getPawn(xToCheck, yToCheck);
                 }
             }
         }
 
-        return result;
+        return "no no x";
+    }
+
+    private String checkKillsForKing(PawnData pawn, int x, int y) {
+
+        PawnData pawnCurrent;
+        checkKills(pawn, x, y);
+
+        for (Map.Entry<Integer, PawnData> entry : pawns.entrySet()) {
+
+            if ((entry.getValue().isAlive() && entry.getValue().getColor().equals(pawn.getColor())) && entry.getValue().isKing()) {
+
+                pawnCurrent = entry.getValue();
+
+                for (int i = -1; i <= 1; i += 2) {
+
+                    for (int j = -1; j <= 1; j += 2) {
+
+                        int xToCheck = pawn.getX() + i;
+                        int yToCheck = pawn.getY() + j;
+                        PawnData pawnToCheck = getPawn(xToCheck, yToCheck);
+
+                        while (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
+
+                            int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+                            int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
+                            xToCheck = pawnCurrent.getX() + mm;
+                            yToCheck = pawnCurrent.getY() + nn;
+
+                            pawnToCheck = getPawn(xToCheck, yToCheck);
+                        }
+
+                        if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck != null && pawnToCheck.isAlive())) {
+
+                            PawnData pawnToKill = pawnToCheck;
+
+                            int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+                            int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
+                            xToCheck = pawn.getX() + mm;
+                            yToCheck = pawn.getY() + nn;
+
+                            pawnToCheck = getPawn(xToCheck, yToCheck);
+
+                            if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
+
+                                mustMove = true;
+                                currentKills++;
+                                temporaryKilledPawns.add(pawn.getKey());
+                                temporaryKilledPawns.add(pawnToKill.getKey());
+
+                                findBestMove(new PawnData(x, y, 1000, pawn.getColor()));
+
+                                if (currentKills > bestKills) {
+
+                                    bestKills = currentKills;
+                                }
+
+                                temporaryKilledPawns.clear();
+                                currentKills = 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        for (int i = -1; i <= 1; i += 2) {
+
+            for (int j = -1; j <= 1; j += 2) {
+
+                int xToCheck = pawn.getX() + i;
+                int yToCheck = pawn.getY() + j;
+                PawnData pawnToCheck = getPawn(xToCheck, yToCheck);
+
+                while (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
+
+                    int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+                    int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
+                    xToCheck = pawn.getX() + mm;
+                    yToCheck = pawn.getY() + nn;
+
+                    pawnToCheck = getPawn(xToCheck, yToCheck);
+                }
+
+                if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck != null && pawnToCheck.isAlive())) {
+
+                    PawnData pawnToKill = pawnToCheck;
+
+                    int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+                    int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
+                    xToCheck = pawn.getX() + mm;
+                    yToCheck = pawn.getY() + nn;
+
+                    pawnToCheck = getPawn(xToCheck, yToCheck);
+
+                    if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
+
+                        currentKills++;
+                        temporaryKilledPawns.add(pawn.getKey());
+                        temporaryKilledPawns.add(pawnToKill.getKey());
+
+                        findBestMove(new PawnData(x, y, 1000, pawn.getColor()));
+
+                        if (currentKills == bestKills && (xToCheck == x && yToCheck == y)) {
+
+                            pawn.setX(x);
+                            pawn.setY(y);
+                            pawnToKill.kill();
+                            return "yes yes " + pawnToKill.getKey();
+                        }
+
+                        currentKills = 0;
+                        temporaryKilledPawns.clear();
+                    }
+                }
+            }
+        }
+
+        return "";
     }
 }

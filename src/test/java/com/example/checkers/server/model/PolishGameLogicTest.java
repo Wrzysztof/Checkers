@@ -13,9 +13,10 @@ public class PolishGameLogicTest {
     @Before
     public void setUp() {
 
-        gameLogic = new PolishGameLogic("game");
+        gameLogic = new PolishGameLogic("game", "Polskie");
 
         assertEquals(gameLogic.getName(), "game");
+        assertEquals(gameLogic.getType(), "Polskie");
         assertEquals(gameLogic.getBoardSize(), 10);
         assertFalse(gameLogic.isStarted());
 

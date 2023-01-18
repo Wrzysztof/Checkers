@@ -61,7 +61,7 @@ public class EnglishGameLogic extends GameLogic {
     @Override
     protected String moveBlack(PawnData pawn, int x, int y) {
 
-        String result = "";
+        String result;
         mustMove = false;
 
         if (pawn.isKing()) {
@@ -70,7 +70,7 @@ public class EnglishGameLogic extends GameLogic {
 
             if (result.length() < 3) {
 
-                result += kingMove(pawn, x, y);
+                result = kingMove(pawn, x, y);
             }
 
         } else {
@@ -234,14 +234,9 @@ public class EnglishGameLogic extends GameLogic {
 
                 pawnCurrent = entry.getValue();
 
-                for (int i = -1; i <= 1; i++) {
+                for (int i = -1; i <= 1; i += 2) {
 
-                    for (int j = -1; j <= 1; j++) {
-
-                        if (i == 0 && j == 0) {
-
-                            continue;
-                        }
+                    for (int j = -1; j <= 1; j += 2) {
 
                         PawnData pawnToCheck = getPawn(pawnCurrent.getX() + i, pawnCurrent.getY() + j);
 
