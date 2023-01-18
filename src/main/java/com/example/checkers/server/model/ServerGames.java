@@ -39,13 +39,13 @@ public class ServerGames {
 
         if ("Polskie".equals(type)) {
 
-            game = new PolishGameLogic(name);
+            game = new PolishGameLogic(name, type);
         } else if ("Angielskie".equals(type)) {
 
-            game = new EnglishGameLogic(name);
+            game = new EnglishGameLogic(name, type);
         } else {
 
-            game = new FrisianGameLogic(name);
+            game = new FrisianGameLogic(name, type);
         }
 
         games.add(game);

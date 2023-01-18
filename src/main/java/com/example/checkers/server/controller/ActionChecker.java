@@ -52,7 +52,7 @@ public final class ActionChecker {
 
             if(games.ifGameExists(commands[0])) {
 
-                if(commands[1].equals("2")) {
+                if(commands[1].equals("2") && games.getGame(commands[0]).getType().equals(commands[3])) {
 
                     games.getGame(commands[0]).startGame();
                     out.println(commands[3] + " 2");

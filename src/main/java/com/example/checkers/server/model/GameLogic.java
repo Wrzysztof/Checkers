@@ -12,14 +12,16 @@ import java.util.Map;
 public abstract class GameLogic {
 
     private final String name;
+    private final String type;
     private final int boardSize;
     private boolean isStarted = false;
     private boolean playerWhite = false;
     protected HashMap<Integer, PawnData> pawns;
 
-    public GameLogic(String name) {
+    public GameLogic(String name, String type) {
 
         this.name = name;
+        this.type = type;
         boardSize = setBoardSize();
         pawns = new HashMap<>();
         int pawnsCounter = 1;
@@ -47,6 +49,11 @@ public abstract class GameLogic {
     public String getName() {
 
         return name;
+    }
+
+    public String getType() {
+
+        return type;
     }
 
     public int getBoardSize() {
