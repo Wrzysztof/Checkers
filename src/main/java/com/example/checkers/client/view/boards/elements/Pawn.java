@@ -15,10 +15,11 @@ public class Pawn extends Circle {
 
     private final GameBoard board;
     private final int key;
+    private final static int SIZE = 30;
 
     public Pawn(GameBoard board, Color color, int key, PrintWriter outputPrinter) {
 
-        super(30, color);
+        super(SIZE, color);
         this.board = board;
         this.key = key;
 
