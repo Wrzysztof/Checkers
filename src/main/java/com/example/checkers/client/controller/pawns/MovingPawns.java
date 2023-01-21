@@ -10,6 +10,13 @@ import javafx.scene.layout.GridPane;
 
 public final class MovingPawns {
 
+
+    /**
+     * Changing position of chosen pawn
+     * @param pawn The pawn to chenge its position
+     * @param x New x coordinate
+     * @param y New y coordinate
+     */
     public static void doMove(Pawn pawn, int x, int y) {
 
         Platform.runLater(() -> {

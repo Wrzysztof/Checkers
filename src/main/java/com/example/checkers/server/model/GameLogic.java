@@ -18,6 +18,12 @@ public abstract class GameLogic {
     private boolean playerWhite = false;
     protected HashMap<Integer, PawnData> pawns;
 
+
+    /**
+     * Creating game on server
+     * @param name The name of the game
+     * @param type Game variant
+     */
     public GameLogic(String name, String type) {
 
         this.name = name;

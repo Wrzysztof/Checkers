@@ -28,6 +28,12 @@ public abstract class GameBoard extends GridPane {
 
     private boolean yourTurn = false;
 
+    /**
+     * Creating game board for client
+     * @param name The name of the game
+     * @param player The number to specify color of the player
+     * @param outputPrinter PrintWriter to send message to server
+     */
     public GameBoard(String name, String player, PrintWriter outputPrinter) {
 
         super();
