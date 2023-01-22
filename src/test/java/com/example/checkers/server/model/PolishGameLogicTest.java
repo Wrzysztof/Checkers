@@ -28,12 +28,11 @@ public class PolishGameLogicTest {
     @Test
     public void doMoveWhenPawnIsNotOnTheBoardThenReturnNo() {
 
-        //gameLogic.getPawn(2).kill();
-        //assertNull(gameLogic.getPawn(2));
+        gameLogic.getPawn(1).kill();
 
-        String result = gameLogic.doMove("1", "2", "1", "1");
+        String result = gameLogic.doMove("1", "1", "1", "1");
 
-        assertEquals("game 2 1 1 no", result);
+        assertEquals("game 1 1 1 no", result);
     }
 
     @Test

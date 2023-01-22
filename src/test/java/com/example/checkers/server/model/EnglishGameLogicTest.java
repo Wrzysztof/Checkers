@@ -2,22 +2,22 @@ package com.example.checkers.server.model;
 
 import javafx.scene.paint.Color;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.Before;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class EnglishGameLogicTest {
+public class EnglishGameLogicTest {
 
     private GameLogic gameLogic;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
 
-        gameLogic = new PolishGameLogic("game", "Polskie");
+        gameLogic = new EnglishGameLogic("game", "Angielskie");
 
         assertEquals(gameLogic.getName(), "game");
-        assertEquals(gameLogic.getType(), "Polskie");
-        assertEquals(gameLogic.getBoardSize(), 10);
+        assertEquals(gameLogic.getType(), "Angielskie");
+        assertEquals(gameLogic.getBoardSize(), 8);
         assertFalse(gameLogic.isStarted());
 
         gameLogic.startGame();
@@ -28,12 +28,11 @@ class EnglishGameLogicTest {
     @Test
     public void doMoveWhenPawnIsNotOnTheBoardThenReturnNo() {
 
-        //gameLogic.getPawn(2).kill();
-        //assertNull(gameLogic.getPawn(2));
+        gameLogic.getPawn(1).kill();
 
-        String result = gameLogic.doMove("1", "2", "1", "1");
+        String result = gameLogic.doMove("1", "1", "1", "1");
 
-        assertEquals("game 2 1 1 no", result);
+        assertEquals("game 1 1 1 no", result);
     }
 
     @Test

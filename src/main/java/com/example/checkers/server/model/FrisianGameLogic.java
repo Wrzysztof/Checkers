@@ -171,29 +171,26 @@ public class FrisianGameLogic extends GameLogic {
 
     private boolean ifKillIsPossibleForKing(PawnData pawn, int i, int j) {
 
+        int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+        int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
         int xToCheck = pawn.getX() + i;
         int yToCheck = pawn.getY() + j;
+
         PawnData pawnToCheck = getPawn(xToCheck, yToCheck);
 
         while (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
 
-            int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
-            int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
-
-
-            xToCheck = pawn.getX() + mm;
-            yToCheck = pawn.getY() + nn;
+            xToCheck = xToCheck + i;
+            yToCheck = yToCheck + j;
 
             pawnToCheck = getPawn(xToCheck, yToCheck);
         }
 
         if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck != null && pawnToCheck.isAlive()) && !pawnToCheck.getColor().equals(pawn.getColor())) {
 
-            int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
-            int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
-
-            xToCheck = pawn.getX() + mm;
-            yToCheck = pawn.getY() + nn;
+            xToCheck = pawnToCheck.getX() + i;
+            yToCheck = pawnToCheck.getY() + j;
 
             pawnToCheck = getPawn(xToCheck, yToCheck);
 
@@ -266,8 +263,12 @@ public class FrisianGameLogic extends GameLogic {
 
             for (int j = -1; j <= 1; j += 2) {
 
+                int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+                int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
                 int xToCheck = pawn.getX() + i;
                 int yToCheck = pawn.getY() + j;
+
                 PawnData pawnToCheck = getPawn(xToCheck, yToCheck);
 
                 while (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
@@ -284,11 +285,8 @@ public class FrisianGameLogic extends GameLogic {
                         return "yes no x";
                     }
 
-                    int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
-                    int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
-
-                    xToCheck = pawn.getX() + mm;
-                    yToCheck = pawn.getY() + nn;
+                    xToCheck = xToCheck + i;
+                    yToCheck = yToCheck + j;
 
                     pawnToCheck = getPawn(xToCheck, yToCheck);
                 }
@@ -313,48 +311,46 @@ public class FrisianGameLogic extends GameLogic {
 
                     for (int j = -1; j <= 1; j += 2) {
 
-                        int xToCheck = pawn.getX() + i;
-                        int yToCheck = pawn.getY() + j;
+                        int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+                        int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
+                        int xToCheck = pawnCurrent.getX() + i;
+                        int yToCheck = pawnCurrent.getY() + j;
+
                         PawnData pawnToCheck = getPawn(xToCheck, yToCheck);
 
                         while (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
 
-                            int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
-                            int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+                            xToCheck = xToCheck + i;
+                            yToCheck = yToCheck + j;
 
-                            xToCheck = pawnCurrent.getX() + mm;
-                            yToCheck = pawnCurrent.getY() + nn;
+                            pawnToCheck = getPawn(xToCheck, yToCheck);
+                        }
+
+                        if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck != null && pawnToCheck.isAlive())) {
+
+                            PawnData pawnToKill = pawnToCheck;
+
+                            xToCheck = pawnToKill.getX() + i;
+                            yToCheck = pawnToKill.getY() + j;
 
                             pawnToCheck = getPawn(xToCheck, yToCheck);
 
-                            if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck != null && pawnToCheck.isAlive())) {
+                            if ((pawnCurrent.getKey() == pawn.getKey()) && ((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
 
-                                PawnData pawnToKill = pawnToCheck;
+                                mustMove = true;
 
-                                mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
-                                nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+                                if (xToCheck == x && yToCheck == y) {
 
-                                xToCheck = pawn.getX() + mm;
-                                yToCheck = pawn.getY() + nn;
-
-                                pawnToCheck = getPawn(xToCheck, yToCheck);
-
-                                if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
-
-                                    mustMove = true;
-
-                                    if (xToCheck == x && yToCheck == y) {
-
-                                        pawn.setX(x);
-                                        pawn.setY(y);
-                                        pawnToKill.kill();
-                                        if (pawn.getColor().equals(Color.WHITE)) {
-                                            kingMovesWhite = 1;
-                                        } else if (pawn.getColor().equals(Color.BLACK)) {
-                                            kingMovesBlack = 1;
-                                        }
-                                        return "yes yes " + pawnToKill.getKey();
+                                    pawn.setX(x);
+                                    pawn.setY(y);
+                                    pawnToKill.kill();
+                                    if (pawn.getColor().equals(Color.WHITE)) {
+                                        kingMovesWhite = 1;
+                                    } else if (pawn.getColor().equals(Color.BLACK)) {
+                                        kingMovesBlack = 1;
                                     }
+                                    return "yes yes " + pawnToKill.getKey();
                                 }
                             }
                         }

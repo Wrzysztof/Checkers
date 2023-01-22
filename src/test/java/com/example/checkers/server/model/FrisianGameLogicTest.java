@@ -6,17 +6,17 @@ import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FrisianGameLogicTest {
+public class FrisianGameLogicTest {
 
     private GameLogic gameLogic;
 
     @Before
     public void setUp() {
 
-        gameLogic = new PolishGameLogic("game", "Polskie");
+        gameLogic = new FrisianGameLogic("game", "Fryzyjskie");
 
         assertEquals(gameLogic.getName(), "game");
-        assertEquals(gameLogic.getType(), "Polskie");
+        assertEquals(gameLogic.getType(), "Fryzyjskie");
         assertEquals(gameLogic.getBoardSize(), 10);
         assertFalse(gameLogic.isStarted());
 
@@ -28,12 +28,11 @@ class FrisianGameLogicTest {
     @Test
     public void doMoveWhenPawnIsNotOnTheBoardThenReturnNo() {
 
-        //gameLogic.getPawn(2).kill();
-        //assertNull(gameLogic.getPawn(2));
+        gameLogic.getPawn(1).kill();
 
-        String result = gameLogic.doMove("1", "2", "1", "1");
+        String result = gameLogic.doMove("1", "1", "1", "1");
 
-        assertEquals("game 2 1 1 no", result);
+        assertEquals("game 1 1 1 no", result);
     }
 
     @Test

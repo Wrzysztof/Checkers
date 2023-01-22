@@ -413,6 +413,7 @@ public class PolishGameLogic extends GameLogic {
 
                 int xToCheck = pawn.getX() + i;
                 int yToCheck = pawn.getY() + j;
+
                 PawnData pawnToCheck = getPawn(xToCheck, yToCheck);
 
                 while (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
