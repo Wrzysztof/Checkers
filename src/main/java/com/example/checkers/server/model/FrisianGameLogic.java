@@ -180,6 +180,7 @@ public class FrisianGameLogic extends GameLogic {
             int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
             int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
 
+
             xToCheck = pawn.getX() + mm;
             yToCheck = pawn.getY() + nn;
 

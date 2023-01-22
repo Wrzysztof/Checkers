@@ -101,14 +101,9 @@ public class EnglishGameLogic extends GameLogic {
 
         if (pawn.isKing()) {
 
-            for (int i = -1; i <= 1; i++) {
+            for (int i = -1; i <= 1; i += 2) {
 
-                for (int j = -1; j <= 1; j++) {
-
-                    if (i == 0 && j == 0) {
-
-                        continue;
-                    }
+                for (int j = -1; j <= 1; j += 2) {
 
                     if (ifKillIsPossible(pawn, i, j)) return false;
                 }
@@ -210,7 +205,7 @@ public class EnglishGameLogic extends GameLogic {
                     continue;
                 }
 
-                if((pawn.getY() + i == x && pawn.getX() + j == y && (getPawn(x, y) == null || !getPawn(x, y).isAlive())) && !mustMove) {
+                if((pawn.getX() + i == x && pawn.getY() + j == y && (getPawn(x, y) == null || !getPawn(x, y).isAlive())) && !mustMove) {
 
                     pawn.setX(x);
                     pawn.setY(y);
@@ -234,9 +229,9 @@ public class EnglishGameLogic extends GameLogic {
 
                 pawnCurrent = entry.getValue();
 
-                for (int i = -1; i <= 1; i += 2) {
+                for (int i = 1; i >= -1; i -= 2) {
 
-                    for (int j = -1; j <= 1; j += 2) {
+                    for (int j = -1; j < 2; j += 2) {
 
                         PawnData pawnToCheck = getPawn(pawnCurrent.getX() + i, pawnCurrent.getY() + j);
 

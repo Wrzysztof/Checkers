@@ -39,5 +39,6 @@ public class Pawn extends Circle {
     public void setKing() {
 
         setStroke(Color.GOLD);
+        setStrokeWidth(5);
     }
 }

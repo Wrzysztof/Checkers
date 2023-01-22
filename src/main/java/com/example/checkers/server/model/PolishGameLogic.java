@@ -155,28 +155,26 @@ public class PolishGameLogic extends GameLogic {
 
     private boolean ifKillIsPossibleForKing(PawnData pawn, int i, int j) {
 
+        int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+        int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
         int xToCheck = pawn.getX() + i;
         int yToCheck = pawn.getY() + j;
+
         PawnData pawnToCheck = getPawn(xToCheck, yToCheck);
 
         while (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
 
-            int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
-            int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
-
-            xToCheck = pawn.getX() + mm;
-            yToCheck = pawn.getY() + nn;
+            xToCheck = xToCheck + i;
+            yToCheck = yToCheck + j;
 
             pawnToCheck = getPawn(xToCheck, yToCheck);
         }
 
         if (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck != null && pawnToCheck.isAlive()) && !pawnToCheck.getColor().equals(pawn.getColor())) {
 
-            int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
-            int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
-
-            xToCheck = pawn.getX() + mm;
-            yToCheck = pawn.getY() + nn;
+            xToCheck = pawnToCheck.getX() + i;
+            yToCheck = pawnToCheck.getY() + j;
 
             pawnToCheck = getPawn(xToCheck, yToCheck);
 
@@ -197,26 +195,22 @@ public class PolishGameLogic extends GameLogic {
 
         if (pawn.isKing()) {
 
-            for (int i = -1; i <= 1; i++) {
+            for (int i = -1; i <= 1; i += 2) {
 
-                for (int j = -1; j <= 1; j++) {
+                for (int j = -1; j <= 1; j += 2) {
 
-                    if (i == 0 && j == 0) {
-
-                        continue;
-                    }
+                    int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+                    int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
 
                     int xToCheck = pawn.getX() + i;
                     int yToCheck = pawn.getY() + j;
+
                     PawnData pawnToCheck = getPawn(xToCheck, yToCheck);
 
                     while (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || (!pawnToCheck.isAlive() && !ifPawnIsNotTemporaryKilled(pawnToCheck.getKey())))) {
 
-                        int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
-                        int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
-
-                        xToCheck = pawn.getX() + mm;
-                        yToCheck = pawn.getY() + nn;
+                        xToCheck = xToCheck + i;
+                        yToCheck = yToCheck + j;
 
                         pawnToCheck = getPawn(xToCheck, yToCheck);
                     }
@@ -225,11 +219,8 @@ public class PolishGameLogic extends GameLogic {
 
                         PawnData pawnToKill = pawnToCheck;
 
-                        int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
-                        int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
-
-                        xToCheck = pawn.getX() + mm;
-                        yToCheck = pawn.getY() + nn;
+                        xToCheck = pawnToKill.getX() + i;
+                        yToCheck = pawnToKill.getY() + j;
 
                         pawnToCheck = getPawn(xToCheck, yToCheck);
 
@@ -260,7 +251,7 @@ public class PolishGameLogic extends GameLogic {
 
             for (int i = -1; i <= 1; i += 2) {
 
-                for (int j = 1; j >= -1; j -= 2) {
+                for (int j = -1; j <= 1; j += 2) {
 
                     PawnData pawnToCheck = getPawn(pawn.getX() + i, pawn.getY() + j);
 
@@ -417,6 +408,9 @@ public class PolishGameLogic extends GameLogic {
 
             for (int j = -1; j <= 1; j += 2) {
 
+                int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+                int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
                 int xToCheck = pawn.getX() + i;
                 int yToCheck = pawn.getY() + j;
                 PawnData pawnToCheck = getPawn(xToCheck, yToCheck);
@@ -430,11 +424,8 @@ public class PolishGameLogic extends GameLogic {
                         return "yes no x";
                     }
 
-                    int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
-                    int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
-
-                    xToCheck = pawn.getX() + mm;
-                    yToCheck = pawn.getY() + nn;
+                    xToCheck = xToCheck + i;
+                    yToCheck = yToCheck + j;
 
                     pawnToCheck = getPawn(xToCheck, yToCheck);
                 }
@@ -455,21 +446,22 @@ public class PolishGameLogic extends GameLogic {
 
                 pawnCurrent = entry.getValue();
 
-                for (int i = -1; i <= 1; i += 2) {
+                for (int i = 1; i > -2; i -= 2) {
 
-                    for (int j = -1; j <= 1; j += 2) {
+                    for (int j = 1; j > -2; j -= 2) {
 
-                        int xToCheck = pawn.getX() + i;
-                        int yToCheck = pawn.getY() + j;
+                        int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+                        int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
+                        int xToCheck = pawnCurrent.getX() + i;
+                        int yToCheck = pawnCurrent.getY() + j;
+
                         PawnData pawnToCheck = getPawn(xToCheck, yToCheck);
 
                         while (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
 
-                            int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
-                            int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
-
-                            xToCheck = pawnCurrent.getX() + mm;
-                            yToCheck = pawnCurrent.getY() + nn;
+                            xToCheck = xToCheck + i;
+                            yToCheck = yToCheck + j;
 
                             pawnToCheck = getPawn(xToCheck, yToCheck);
                         }
@@ -478,11 +470,8 @@ public class PolishGameLogic extends GameLogic {
 
                             PawnData pawnToKill = pawnToCheck;
 
-                            int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
-                            int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
-
-                            xToCheck = pawn.getX() + mm;
-                            yToCheck = pawn.getY() + nn;
+                            xToCheck = pawnToKill.getX() + i;
+                            yToCheck = pawnToKill.getY() + j;
 
                             pawnToCheck = getPawn(xToCheck, yToCheck);
 
@@ -490,7 +479,7 @@ public class PolishGameLogic extends GameLogic {
 
                                 mustMove = true;
                                 currentKills++;
-                                temporaryKilledPawns.add(pawn.getKey());
+                                temporaryKilledPawns.add(pawnCurrent.getKey());
                                 temporaryKilledPawns.add(pawnToKill.getKey());
 
                                 findBestMove(new PawnData(x, y, 1000, pawn.getColor()));
@@ -513,17 +502,18 @@ public class PolishGameLogic extends GameLogic {
 
             for (int j = -1; j <= 1; j += 2) {
 
+                int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
+                int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
+
                 int xToCheck = pawn.getX() + i;
                 int yToCheck = pawn.getY() + j;
+
                 PawnData pawnToCheck = getPawn(xToCheck, yToCheck);
 
                 while (((xToCheck >= 0 && xToCheck < getBoardSize()) && (yToCheck >= 0 && yToCheck < getBoardSize())) && (pawnToCheck == null || !pawnToCheck.isAlive())) {
 
-                    int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
-                    int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
-
-                    xToCheck = pawn.getX() + mm;
-                    yToCheck = pawn.getY() + nn;
+                    xToCheck = xToCheck + i;
+                    yToCheck = yToCheck + j;
 
                     pawnToCheck = getPawn(xToCheck, yToCheck);
                 }
@@ -532,11 +522,8 @@ public class PolishGameLogic extends GameLogic {
 
                     PawnData pawnToKill = pawnToCheck;
 
-                    int mm = i < 0 ? i - 1 : i > 0 ? i + 1 : i;
-                    int nn = j < 0 ? j - 1 : j > 0 ? j + 1 : j;
-
-                    xToCheck = pawn.getX() + mm;
-                    yToCheck = pawn.getY() + nn;
+                    xToCheck = pawnToKill.getX() + i;
+                    yToCheck = pawnToKill.getY() + j;
 
                     pawnToCheck = getPawn(xToCheck, yToCheck);
 
@@ -548,6 +535,7 @@ public class PolishGameLogic extends GameLogic {
 
                         findBestMove(new PawnData(x, y, 1000, pawn.getColor()));
 
+                        System.out.println("zrobione: " + currentKills + "/" + bestKills);
                         if (currentKills == bestKills && (xToCheck == x && yToCheck == y)) {
 
                             pawn.setX(x);
