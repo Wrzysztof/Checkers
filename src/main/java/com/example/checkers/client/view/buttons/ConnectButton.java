@@ -1,6 +1,7 @@
 package com.example.checkers.client.view.buttons;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -15,16 +16,16 @@ public abstract class ConnectButton extends Button {
 
     private final String name;
 
-    public ConnectButton(Stage stage, TextField textField, BufferedReader inputBuffer, PrintWriter outputPrinter) {
+    public ConnectButton(Stage stage, TextField textField, CheckBox botCheckBox, BufferedReader inputBuffer, PrintWriter outputPrinter) {
 
         super();
         this.name = setName();
         setText(name);
-        connectToGame(stage, textField, inputBuffer, outputPrinter);
+        connectToGame(stage, textField, botCheckBox, inputBuffer, outputPrinter);
     }
 
     protected abstract String setName();
-    protected abstract void connectToGame(Stage stage, TextField textField, BufferedReader inputBuffer, PrintWriter outputPrinter);
+    protected abstract void connectToGame(Stage stage, TextField textField, CheckBox botCheckBox, BufferedReader inputBuffer, PrintWriter outputPrinter);
 
     public String getName() {
 

@@ -33,19 +33,19 @@ public class ServerGames {
         return getGame(name).isStarted();
     }
 
-    public void newGame(String name, String type) {
+    public void newGame(String name, String type, boolean bot) {
 
         GameLogic game;
 
         if ("Polskie".equals(type)) {
 
-            game = new PolishGameLogic(name, type);
+            game = new PolishGameLogic(name, type, bot);
         } else if ("Angielskie".equals(type)) {
 
-            game = new EnglishGameLogic(name, type);
+            game = new EnglishGameLogic(name, type, bot);
         } else {
 
-            game = new FrisianGameLogic(name, type);
+            game = new FrisianGameLogic(name, type, bot);
         }
 
         games.add(game);

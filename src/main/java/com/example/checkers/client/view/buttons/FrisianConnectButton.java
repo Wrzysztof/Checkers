@@ -1,6 +1,7 @@
 package com.example.checkers.client.view.buttons;
 
 import com.example.checkers.client.controller.buttons.ConnectionToFrisianGame;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -12,9 +13,9 @@ import java.io.PrintWriter;
  */
 
 public class FrisianConnectButton extends ConnectButton {
-    public FrisianConnectButton(Stage stage, TextField textField, BufferedReader inputBuffer, PrintWriter outputPrinter) {
+    public FrisianConnectButton(Stage stage, TextField textField, CheckBox botCheckBox, BufferedReader inputBuffer, PrintWriter outputPrinter) {
 
-        super(stage, textField, inputBuffer, outputPrinter);
+        super(stage, textField, botCheckBox, inputBuffer, outputPrinter);
     }
 
     @Override
@@ -24,8 +25,8 @@ public class FrisianConnectButton extends ConnectButton {
     }
 
     @Override
-    protected void connectToGame(Stage stage, TextField textField, BufferedReader inputBuffer, PrintWriter outputPrinter) {
+    protected void connectToGame(Stage stage, TextField textField, CheckBox botCheckBox, BufferedReader inputBuffer, PrintWriter outputPrinter) {
 
-        ConnectionToFrisianGame.setConnectionOnClick(this, stage, textField, outputPrinter);
+        ConnectionToFrisianGame.setConnectionOnClick(this, stage, textField, botCheckBox, outputPrinter);
     }
 }

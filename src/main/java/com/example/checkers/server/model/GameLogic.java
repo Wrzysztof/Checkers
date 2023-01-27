@@ -14,6 +14,7 @@ public abstract class GameLogic {
     private final String name;
     private final String type;
     private final int boardSize;
+    private final boolean bot;
     private boolean isStarted = false;
     private boolean playerWhite = false;
     protected HashMap<Integer, PawnData> pawns;
@@ -24,8 +25,9 @@ public abstract class GameLogic {
      * @param name The name of the game
      * @param type Game variant
      */
-    public GameLogic(String name, String type) {
+    public GameLogic(String name, String type, boolean bot) {
 
+        this.bot = bot;
         this.name = name;
         this.type = type;
         boardSize = setBoardSize();
@@ -205,6 +207,20 @@ public abstract class GameLogic {
         } else {
 
             toPrint += " no";
+        }
+
+        if (bot) {
+
+            if (!playerWhite) {
+
+                if (toPrint.contains("yes")) {
+
+                    //reset moves for bot
+                }
+
+                //bot move
+                //doMove(botClass.getMove)
+            }
         }
 
         return toPrint;

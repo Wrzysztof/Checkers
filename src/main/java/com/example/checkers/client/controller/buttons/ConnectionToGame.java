@@ -6,6 +6,7 @@ import com.example.checkers.client.view.boards.GameBoard;
 import com.example.checkers.client.view.buttons.ConnectButton;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -18,6 +19,7 @@ import java.io.PrintWriter;
 public abstract class ConnectionToGame {
 
     private static String name;
+    private static String bot;
     private static Stage previousStage;
     private static PrintWriter out;
 
@@ -27,14 +29,15 @@ public abstract class ConnectionToGame {
 
     protected abstract GameBoard chooseGameBoard(String name, String answer, PrintWriter out);
 
-    public static void setConnectionOnClick(ConnectButton button, Stage stage, TextField textField, PrintWriter outputPrinter) {
+    public static void setConnectionOnClick(ConnectButton button, Stage stage, TextField textField, CheckBox botCheckBox, PrintWriter outputPrinter) {
 
         button.setOnAction(e -> {
 
             name = textField.getText();
+            bot = botCheckBox.isSelected() ? "yes" : "no";
             previousStage = stage;
             out = outputPrinter;
-            ConnectingToGame.createGame(name, button.getName(), out);
+            ConnectingToGame.createGame(name, button.getName(), bot,  out);
         });
     }
 

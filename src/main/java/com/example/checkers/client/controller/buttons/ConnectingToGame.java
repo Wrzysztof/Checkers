@@ -15,9 +15,9 @@ public final class ConnectingToGame {
      * @param outputPrinter PrintWriter to which messages are sent
      */
 
-    public static void createGame(String gameName, String gameType, PrintWriter outputPrinter) {
+    public static void createGame(String gameName, String gameType, String bot, PrintWriter outputPrinter) {
 
-        outputPrinter.println(gameName + " " + "player" + " " + "checkgame" + " " + gameType);
+        outputPrinter.println(gameName + " " + "player" + " " + "checkgame" + " " + gameType + " " + bot);
     }
 
     /**
@@ -28,8 +28,8 @@ public final class ConnectingToGame {
      * @param outputPrinter PrintWriter to which messages are sent
      */
 
-    public static void createRealGame(String gameName, String gameType, String player, PrintWriter outputPrinter) {
+    public static void createRealGame(String gameName, String gameType, String player, String bot, PrintWriter outputPrinter) {
 
-        outputPrinter.println(gameName + " " + player + " " + "newgame" + " " + gameType);
+        outputPrinter.println(gameName + " " + player + " " + "newgame" + " " + gameType + " " + bot);
     }
 }

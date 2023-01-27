@@ -39,9 +39,9 @@ public final class ActionPerformer {
 
         String[] commands = command.split(" ");
 
-        if (commands.length == 3) {
+        if (commands.length == 4) {
 
-            ConnectingToGame.createRealGame(commands[0], commands[2], commands[1], out);
+            ConnectingToGame.createRealGame(commands[0], commands[2], commands[1], commands[3], out);
 
         } else if (commands.length == 2) {
 

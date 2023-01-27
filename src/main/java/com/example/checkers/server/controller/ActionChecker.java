@@ -13,15 +13,15 @@ import java.util.List;
 
 public final class ActionChecker {
 
-    private static final Object lock = new Object();
-    private static final ServerGames games = new ServerGames();
-    private static final List<ServerApplication.ClientHandler> clients = new ArrayList<>();
+    private static final Object LOCK = new Object();
+    private static final ServerGames GAMES = new ServerGames();
+    private static final List<ServerApplication.ClientHandler> CLIENTS = new ArrayList<>();
 
     public static void addClient(ServerApplication.ClientHandler client) {
 
-        synchronized (lock) {
+        synchronized (LOCK) {
 
-            clients.add(client);
+            CLIENTS.add(client);
         }
     }
 
@@ -30,8 +30,8 @@ public final class ActionChecker {
         System.out.println(message);
 
         List<ServerApplication.ClientHandler> clientsCopy;
-        synchronized (lock) {
-            clientsCopy = new ArrayList<>(clients);
+        synchronized (LOCK) {
+            clientsCopy = new ArrayList<>(CLIENTS);
         }
         for (ServerApplication.ClientHandler client : clientsCopy) {
             client.sendMessage(message);
@@ -50,41 +50,56 @@ public final class ActionChecker {
 
         if (commands[2].equals("newgame")) {
 
-            if(games.ifGameExists(commands[0])) {
+            if (commands[4].equals("no")) {
 
-                if(commands[1].equals("2") && games.getGame(commands[0]).getType().equals(commands[3])) {
+                if (GAMES.ifGameExists(commands[0])) {
 
-                    games.getGame(commands[0]).startGame();
-                    out.println(commands[3] + " 2");
+                    if (commands[1].equals("2") && GAMES.getGame(commands[0]).getType().equals(commands[3])) {
+
+                        GAMES.getGame(commands[0]).startGame();
+                        out.println(commands[3] + " 2");
+                    } else {
+
+                        out.println(commands[3] + " no");
+                    }
+
                 } else {
 
-                    out.println(commands[3] + " no");
+                    GAMES.newGame(commands[0], commands[3], false);
+                    out.println(commands[3] + " 1");
                 }
+            } else if (commands[4].equals("yes")) {
 
-            } else {
+                if (GAMES.ifGameExists(commands[0])) {
 
-                games.newGame(commands[0], commands[3]);
-                out.println(commands[3] + " 1");
+                    out.println(commands[3] + " no");
+
+                } else {
+
+                    GAMES.newGame(commands[0], commands[3], true);
+                    GAMES.getGame(commands[0]).startGame();
+                    out.println(commands[3] + " 1");
+                }
             }
 
         } else if (commands[2].equals("checkgame")) {
 
-           if (games.ifGameExists(commands[0])) {
+           if (GAMES.ifGameExists(commands[0])) {
 
-               if(games.ifGameStarted(commands[0])) {
+               if(GAMES.ifGameStarted(commands[0])) {
 
-                   out.println(commands[0] + " 3 " + commands[3]);
+                   out.println(commands[0] + " 3 " + commands[3] + " " + commands[4]);
                } else {
-                   out.println(commands[0] + " 2 " + commands[3]);
+                   out.println(commands[0] + " 2 " + commands[3] + " " + commands[4]);
                }
            } else {
-               out.println(commands[0] + " 1 " + commands[3]);
+               out.println(commands[0] + " 1 " + commands[3] + " " + commands[4]);
            }
 
         } else if (commands[2].equals("move")) {
 
             System.out.println(command);
-            distributeMessage(games.getGame(commands[0]).doMove(commands[1], commands[3], commands[4], commands[5]));
+            distributeMessage(GAMES.getGame(commands[0]).doMove(commands[1], commands[3], commands[4], commands[5]));
         }
     }
 }

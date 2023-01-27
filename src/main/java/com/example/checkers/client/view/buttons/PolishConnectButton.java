@@ -1,6 +1,7 @@
 package com.example.checkers.client.view.buttons;
 
 import com.example.checkers.client.controller.buttons.ConnectionToPolishGame;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -12,9 +13,9 @@ import java.io.PrintWriter;
  */
 
 public class PolishConnectButton extends ConnectButton {
-    public PolishConnectButton(Stage stage, TextField textField, BufferedReader inputBuffer, PrintWriter outputPrinter) {
+    public PolishConnectButton(Stage stage, TextField textField, CheckBox botCheckBox, BufferedReader inputBuffer, PrintWriter outputPrinter) {
 
-        super(stage, textField, inputBuffer, outputPrinter);
+        super(stage, textField, botCheckBox, inputBuffer, outputPrinter);
     }
 
     @Override
@@ -24,8 +25,8 @@ public class PolishConnectButton extends ConnectButton {
     }
 
     @Override
-    protected void connectToGame(Stage stage, TextField textField, BufferedReader inputBuffer, PrintWriter outputPrinter) {
+    protected void connectToGame(Stage stage, TextField textField, CheckBox botCheckBox, BufferedReader inputBuffer, PrintWriter outputPrinter) {
 
-        ConnectionToPolishGame.setConnectionOnClick(this, stage, textField, outputPrinter);
+        ConnectionToPolishGame.setConnectionOnClick(this, stage, textField, botCheckBox, outputPrinter);
     }
 }
