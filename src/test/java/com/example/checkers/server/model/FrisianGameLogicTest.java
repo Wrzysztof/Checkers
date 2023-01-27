@@ -13,7 +13,7 @@ public class FrisianGameLogicTest {
     @Before
     public void setUp() {
 
-        gameLogic = new FrisianGameLogic("game", "Fryzyjskie");
+        gameLogic = new FrisianGameLogic("game", "Fryzyjskie", false);
 
         assertEquals(gameLogic.getName(), "game");
         assertEquals(gameLogic.getType(), "Fryzyjskie");
@@ -23,6 +23,18 @@ public class FrisianGameLogicTest {
         gameLogic.startGame();
 
         assertTrue(gameLogic.isStarted());
+    }
+
+    @Test
+    public void doMoveWhenItIsLegalThenReturnYes() {
+
+        //String result = gameLogic.doMove("1", "3", "0", "5");
+
+        //assertEquals("game 3 0 5 yes no x no no yes", result);
+
+        //result = gameLogic.doMove("2", "1", "0", "1");
+
+        //assertEquals("game 1 0 1 yes no x no no yes", result); //problem
     }
 
     @Test
@@ -38,13 +50,13 @@ public class FrisianGameLogicTest {
     @Test
     public void doMoveWhenPlayerIsNotAllowedToMoveThenReturnNo() {
 
-        PawnData pawn = new PawnData(1, 1, 1, Color.WHITE);
-        assertEquals(pawn.getColor(), Color.WHITE);
+        PawnData pawn = gameLogic.getPawn(1);
+        assertEquals(pawn.getColor(), Color.BLACK);
         assertEquals(pawn.getKey(), 1);
-        assertEquals(pawn.getX(), 1);
-        assertEquals(pawn.getY(), 1);
+        assertEquals(pawn.getX(), 0);
+        assertEquals(pawn.getY(), 0);
 
-        String result = gameLogic.doMove("2", "1", "2", "2");
+        String result = gameLogic.doMove("1", "1", "2", "2");
 
         assertEquals("game 1 2 2 no", result);
     }

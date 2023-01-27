@@ -12,12 +12,10 @@ public class PolishGameLogic extends GameLogic {
     private boolean mustMove = false;
     private int bestKills = 0;
     private int currentKills = 0;
-    private ArrayList<Integer> temporaryKilledPawns = new ArrayList<>();;
+    private ArrayList<Integer> temporaryKilledPawns = new ArrayList<>();
 
-
-
-    public PolishGameLogic(String name, String type) {
-        super(name, type);
+    public PolishGameLogic(String name, String type, boolean bot) {
+        super(name, type, bot);
     }
 
     @Override
@@ -49,9 +47,9 @@ public class PolishGameLogic extends GameLogic {
 
                 result = "no no x";
 
-                for (int i = -1; i <= 1; i++) {
+                for (int i = -1; i <= 1; i += 2) {
 
-                    if((pawn.getY() - 1 == y && pawn.getX() + i == x && (getPawn(x, y) == null || getPawn(x, y).isAlive())) && !mustMove) {
+                    if ((pawn.getY() - 1 == y && pawn.getX() + i == x && (getPawn(x, y) == null || getPawn(x, y).isAlive())) && !mustMove) {
 
                         pawn.setX(x);
                         pawn.setY(y);
@@ -88,7 +86,7 @@ public class PolishGameLogic extends GameLogic {
 
                 result = "no no x";
 
-                for (int i = -1; i <= 1; i++) {
+                for (int i = -1; i <= 1; i += 2) {
 
                     if ((pawn.getY() + 1 == y && pawn.getX() + i == x && (getPawn(x, y) == null || !getPawn(x, y).isAlive())) && !mustMove) {
 
@@ -112,7 +110,9 @@ public class PolishGameLogic extends GameLogic {
 
                 for (int j = -1; j <= 1; j += 2) {
 
-                    if (ifKillIsPossibleForKing(pawn, i, j)) return false;
+                    if (ifKillIsPossibleForKing(pawn, i, j)) {
+                        return false;
+                    }
                 }
             }
 
@@ -122,7 +122,9 @@ public class PolishGameLogic extends GameLogic {
 
                 for (int j = -1; j <= 1; j += 2) {
 
-                    if (ifKillIsPossible(pawn, i, j)) return false;
+                    if (ifKillIsPossible(pawn, i, j)) {
+                        return false;
+                    }
                 }
             }
         }

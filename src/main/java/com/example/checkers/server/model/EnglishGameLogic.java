@@ -11,8 +11,8 @@ public class EnglishGameLogic extends GameLogic {
 
     private boolean mustMove = false;
 
-    public EnglishGameLogic(String name, String type) {
-        super(name, type);
+    public EnglishGameLogic(String name, String type, boolean bot) {
+        super(name, type, bot);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class EnglishGameLogic extends GameLogic {
 
                 result = "no no x";
 
-                for(int i = -1; i <= 1; i++) {
+                for(int i = -1; i <= 1; i += 2) {
 
                     if((pawn.getY() - 1 == y && pawn.getX() + i == x && (getPawn(x, y) == null || getPawn(x, y).isAlive())) && !mustMove) {
 
@@ -81,7 +81,7 @@ public class EnglishGameLogic extends GameLogic {
 
                 result = "no no x";
 
-                for(int i = -1; i <= 1; i++) {
+                for(int i = -1; i <= 1; i += 2) {
 
                     if((pawn.getY() + 1 == y && pawn.getX() + i == x && (getPawn(x, y) == null || !getPawn(x, y).isAlive())) && !mustMove) {
 

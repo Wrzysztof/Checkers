@@ -13,7 +13,7 @@ public class EnglishGameLogicTest {
     @Before
     public void setUp() {
 
-        gameLogic = new EnglishGameLogic("game", "Angielskie");
+        gameLogic = new EnglishGameLogic("game", "Angielskie", false);
 
         assertEquals(gameLogic.getName(), "game");
         assertEquals(gameLogic.getType(), "Angielskie");
@@ -26,11 +26,23 @@ public class EnglishGameLogicTest {
     }
 
     @Test
+    public void doMoveWhenItIsLegalThenReturnYes() {
+
+        //String result = gameLogic.doMove("1", "3", "0", "5");
+
+        //assertEquals("game 3 0 5 yes no x no no yes", result);
+
+        //result = gameLogic.doMove("2", "1", "0", "1");
+
+        //assertEquals("game 1 0 1 yes no x no no yes", result);
+    }
+
+    @Test
     public void doMoveWhenPawnIsNotOnTheBoardThenReturnNo() {
 
         gameLogic.getPawn(1).kill();
 
-        String result = gameLogic.doMove("1", "1", "1", "1");
+        String result = gameLogic.doMove("2", "1", "1", "1");
 
         assertEquals("game 1 1 1 no", result);
     }

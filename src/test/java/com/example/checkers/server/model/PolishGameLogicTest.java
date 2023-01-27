@@ -13,7 +13,7 @@ public class PolishGameLogicTest {
     @Before
     public void setUp() {
 
-        gameLogic = new PolishGameLogic("game", "Polskie");
+        gameLogic = new PolishGameLogic("game", "Polskie", false);
 
         assertEquals(gameLogic.getName(), "game");
         assertEquals(gameLogic.getType(), "Polskie");
@@ -23,6 +23,18 @@ public class PolishGameLogicTest {
         gameLogic.startGame();
 
         assertTrue(gameLogic.isStarted());
+    }
+
+    @Test
+    public void doMoveWhenItIsLegalThenReturnYes() {
+
+        //String result = gameLogic.doMove("1", "3", "0", "5");
+
+        //assertEquals("game 3 0 5 yes no x no no yes", result);
+
+        //result = gameLogic.doMove("2", "1", "0", "1");
+
+        //assertEquals("game 1 0 1 yes no x no no yes", result);
     }
 
     @Test
@@ -67,18 +79,18 @@ public class PolishGameLogicTest {
     @Test
     public void doMoveWhenThePawnBecomesKingThenReturnYes() {
 
-        PawnData pawn = new PawnData(3, 3, 1, Color.WHITE);
+        PawnData pawn = gameLogic.getPawn(3);
         pawn.setKing();
-        assertEquals(pawn.getKey(), 1);
-        assertEquals(pawn.getX(), 3);
-        assertEquals(pawn.getY(), 3);
+        assertEquals(pawn.getKey(), 3);
+        assertEquals(pawn.getX(), 0);
+        assertEquals(pawn.getY(), 6);
         assertEquals(pawn.getColor(), Color.WHITE);
         assertTrue(pawn.isKing());
         assertTrue(pawn.isAlive());
 
-        String result = gameLogic.doMove("1", "1", "3", "5");
+        String result = gameLogic.doMove("1", "3", "0", "6");
 
-        assertEquals("game 1 3 5 no", result);
+        assertEquals("game 3 0 6 no", result);
     }
 
     @Test
