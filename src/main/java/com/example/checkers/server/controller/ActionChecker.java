@@ -100,6 +100,17 @@ public final class ActionChecker {
 
             System.out.println(command);
             distributeMessage(GAMES.getGame(commands[0]).doMove(commands[1], commands[3], commands[4], commands[5]));
+
+            if (GAMES.getGame(commands[0]).ifBot()) {
+
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                distributeMessage(GAMES.getGame(commands[0]).doBotMove());
+            }
         }
     }
 }

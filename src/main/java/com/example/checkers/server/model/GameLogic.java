@@ -15,6 +15,7 @@ public abstract class GameLogic {
     private final String type;
     private final int boardSize;
     private final boolean bot;
+    private final BotLogic botLogic;
     private boolean isStarted = false;
     private boolean playerWhite = false;
     protected HashMap<Integer, PawnData> pawns;
@@ -47,6 +48,8 @@ public abstract class GameLogic {
                 }
             }
         }
+
+        this.botLogic = new BotLogic(this);
     }
 
     protected abstract int setBoardSize();
@@ -211,19 +214,52 @@ public abstract class GameLogic {
 
         if (bot) {
 
+            String[] commands = toPrint.split(" ");
+
+            if (commands[5].equals("yes")) {
+
+                botLogic.killPawn(Integer.parseInt(commands[6]));
+            }
+
             if (!playerWhite) {
 
                 if (toPrint.contains("yes")) {
 
-                    //reset moves for bot
+                    botLogic.resetMoves();
+                    botLogic.resetPawns();
                 }
-
-                //bot move
-                //doMove(botClass.getMove)
             }
         }
 
         return toPrint;
+    }
+
+    public String doBotMove() {
+
+        String result = "no";
+
+        if (!playerWhite) {
+
+            while (!result.contains("yes")) {
+
+                String botToPrint = botLogic.doMove();
+                String[] botCommands = botToPrint.split(" ");
+
+                result = doMove("2", botCommands[0], botCommands[1], botCommands[2]);
+
+                if (result.contains("yes")) {
+
+                    return result;
+                }
+            }
+
+        } else {
+
+            botLogic.resetMoves();
+            botLogic.resetPawns();
+        }
+
+        return result;
     }
 
     public void startGame() {
@@ -235,6 +271,11 @@ public abstract class GameLogic {
     public boolean isStarted() {
 
         return isStarted;
+    }
+
+    public boolean ifBot() {
+
+        return bot;
     }
 }
 
