@@ -249,6 +249,7 @@ public abstract class GameLogic {
 
                 if (result.contains("yes")) {
 
+                    botLogic.resetPawns();
                     return result;
                 }
             }
@@ -276,6 +277,11 @@ public abstract class GameLogic {
     public boolean ifBot() {
 
         return bot;
+    }
+
+    public boolean isBlackTurn() {
+
+        return !playerWhite;
     }
 }
 

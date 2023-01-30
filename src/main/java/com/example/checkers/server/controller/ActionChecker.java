@@ -103,13 +103,16 @@ public final class ActionChecker {
 
             if (GAMES.getGame(commands[0]).ifBot()) {
 
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                while (GAMES.getGame(commands[0]).isBlackTurn()) {
 
-                distributeMessage(GAMES.getGame(commands[0]).doBotMove());
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    distributeMessage(GAMES.getGame(commands[0]).doBotMove());
+                }
             }
         }
     }

@@ -135,9 +135,9 @@ public class FrisianGameLogic extends GameLogic {
             }
         }
 
-        for (int i = -1; i <= 1; i++) {
+        for (int i = -1; i <= 1; i += 2) {
 
-            for (int j = -1; j <= 1; j++) {
+            for (int j = -1; j <= 1; j += 2) {
 
                 if (ifKillIsPossible(pawn, i, j)) return false;
             }
@@ -213,9 +213,9 @@ public class FrisianGameLogic extends GameLogic {
 
                 pawnCurrent = entry.getValue();
 
-                for (int i = -1; i <= 1; i ++) {
+                for (int i = -1; i <= 1; i += 2) {
 
-                    for (int j = -1; j <= 1; j ++) {
+                    for (int j = -1; j <= 1; j += 2) {
 
                         PawnData pawnToCheck = getPawn(pawnCurrent.getX() + i, pawnCurrent.getY() + j);
 
@@ -235,7 +235,7 @@ public class FrisianGameLogic extends GameLogic {
 
                                 mustMove = true;
 
-                                if (xToCheck == x && yToCheck == y) {
+                                if (pawnCurrent.getKey() == pawn.getKey() && (xToCheck == x && yToCheck == y)) {
 
                                     pawn.setX(x);
                                     pawn.setY(y);

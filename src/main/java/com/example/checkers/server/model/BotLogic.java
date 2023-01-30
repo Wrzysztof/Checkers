@@ -50,16 +50,13 @@ public class BotLogic {
             return "100 100 100";
         }
 
-        System.out.println(currentMoves.size() + " teraz");
         if (currentMoves.size() < 1) {
 
             deletePawn(pawn);
             randomPawn();
             resetMoves();
-            System.out.println(currentMoves.size() + " in");
         }
 
-        System.out.println(currentMoves.size());
         int moveIndex = rand.nextInt(currentMoves.size());
         Move move = currentMoves.get(moveIndex);
         currentMoves.remove(moveIndex);
